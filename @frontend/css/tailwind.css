@@ -1,0 +1,7 @@
+@import "tailwindcss"; /* Foi baixado com node, por isso que é importado aqui localmente */
+
+/* OBSERVAÇÃO: caso as classes do tailwind não estejam funcionando, é porque tem que compilar, avisa o dono da bola pra rodar o comando
+
+npx @tailwindcss/cli -i ./css/tailwind.css -o ./css/tailwind-compiled.css --watch
+
+na pasta raíz do frontend no servidor pra compilar */
