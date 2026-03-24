@@ -31,23 +31,18 @@ app.get('/', (req, res) => {
 
     //res.render('index');  //NÃO PRECISA DA EXTENSÃO .ejs, o 'index' no começo do render aponta pra view 'var/www/modamym-dev/index.ejs'
 
-    /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
+    /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente ======*/
 
     res.render('index.ejs');
-
-    // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
 });
+
 app.get('/dashboard', (req, res) => {
-    // O Express vai procurar por 'index.ejs' dentro de '/var/www/modamym-dev'
-
-    //res.render('index');  //NÃO PRECISA DA EXTENSÃO .ejs, o 'index' no começo do render aponta pra view 'var/www/modamym-dev/index.ejs'
-
-    /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
-
     res.render('dashboard/dashboard.ejs');
-
-    // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
 });
+
+app.get('/ads-ml', (req, res) => {
+    res.render('dashboard/ads-ml.ejs');
+})
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));

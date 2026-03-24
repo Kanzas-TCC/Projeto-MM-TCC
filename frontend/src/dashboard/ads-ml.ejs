@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODAMYM — Gestão de Anúncios ML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        dm: ['"DM Sans"', 'sans-serif'],
+                        playfair: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        modamym: {
+                            green: '#00A63E',
+                            'green-dark': '#009136',
+                            navy: '#0a0f1a',
+                            'navy-light': '#1e293b',
+                            slate: {
+                                50: '#F4F6F8',
+                                900: '#101828',
+                                500: '#6A7282',
+                                100: '#E5E7EB',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for the table */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="font-dm bg-modamym-slate-50 text-modamym-slate-900 min-h-screen">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header / Título -->
+        <header class="mb-8">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 bg-modamym-green rounded-full"></span>
+                <span class="font-playfair font-black text-xl tracking-tight">MODAMYM</span>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-900">Gestão de Anúncios Mercado Livre</h1>
+            <p class="text-modamym-slate-500 mt-1">Gerencie seus anúncios, acompanhe estoque e preços em tempo real.</p>
+        </header>
+
+        <!-- 1. Cabeçalho de Controles (Filtros e Buscas) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4 mb-6">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+                
+                <!-- Busca -->
+                <div class="relative w-full md:max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" placeholder="Buscar por título ou ID (MLB...)" 
+                           class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm placeholder-slate-400 
+                                  focus:outline-none focus:ring-2 focus:ring-modamym-green/20 focus:border-modamym-green transition-all">
+                </div>
+
+                <!-- Filtros e Ação -->
+                <div class="flex w-full md:w-auto gap-3 items-center">
+                    <div class="relative flex-1 md:flex-none">
+                        <select class="appearance-none w-full md:w-48 pl-3 pr-10 py-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm 
+                                       focus:outline-none focus:ring-2 focus:ring-modamym-green/20 focus:border-modamym-green transition-all">
+                            <option>Todos os Status</option>
+                            <option>Ativos</option>
+                            <option>Pausados</option>
+                            <option>Encerrados</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button class="flex items-center justify-center gap-2 bg-modamym-navy text-white px-5 py-2.5 rounded-lg font-semibold text-sm
+                                   hover:bg-slate-800 transition-all shadow-sm hover:shadow-md active:scale-95">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span class="hidden sm:inline">Atualizar API</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. Área de Dados (Tabela Responsiva) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50/50 border-b border-slate-100">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Produto</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID ML</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Preço</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Estoque</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Status</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        
+                        <!-- Item 1 (Ativo) -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="h-12 w-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-100">
+                                        <img src="https://m.media-amazon.com/images/I/51A8eA9+WjL._AC_SY500_.jpg" alt="Produto" class="h-full w-full object-cover">
+                                    </div>
+                                    <div class="max-w-xs md:max-w-sm">
+                                        <h3 class="text-sm font-semibold text-slate-900 truncate" title="Sapato Beira Rio Salto Baixo Feminino Bico Fino">Sapato Beira Rio Salto Baixo Feminino Bico Fino</h3>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Custo: R$ 89,90</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-mono text-[12px] text-slate-500 bg-slate-50 px-2 py-1 rounded">MLB418612584</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="text-sm font-bold text-slate-900">R$ 143,08</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-sm font-medium text-slate-600">12 unid.</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                    Ativo
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="p-1.5 text-slate-400 hover:text-modamym-green hover:bg-green-50 rounded-lg transition-all">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Item 2 (Pausado por falta de estoque) -->
+                        <tr class="hover:bg-slate-50/50 transition-colors bg-red-50/10">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="h-12 w-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-100">
+                                        <img src="https://m.media-amazon.com/images/I/61N9u-V9JvL._AC_SY500_.jpg" alt="Produto" class="h-full w-full object-cover">
+                                    </div>
+                                    <div class="max-w-xs md:max-w-sm">
+                                        <h3 class="text-sm font-semibold text-slate-900 truncate" title="Bota Beira Rio Luxo - Preto Napa Elegante Croco Malibu">Bota Beira Rio Luxo - Preto Napa Elegante Croco Malibu</h3>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Custo: R$ 120,40</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-mono text-[12px] text-slate-500 bg-slate-50 px-2 py-1 rounded">MLB429713695</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="text-sm font-bold text-slate-900">R$ 195,93</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-sm font-bold text-red-500">0 unid.</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800" title="Pausado automaticamente por falta de estoque">
+                                        <svg class="h-3 w-3 mr-1 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                        </svg>
+                                        Pausado
+                                    </span>
+                                    <span class="text-[10px] text-red-600 font-medium">Sem estoque</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="p-1.5 text-slate-400 hover:text-modamym-green hover:bg-green-50 rounded-lg transition-all">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Item 3 (Encerrado) -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="h-12 w-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-100 opacity-60">
+                                        <img src="https://m.media-amazon.com/images/I/51wXUfWbM9L._AC_SY500_.jpg" alt="Produto" class="h-full w-full object-cover grayscale">
+                                    </div>
+                                    <div class="max-w-xs md:max-w-sm opacity-60">
+                                        <h3 class="text-sm font-semibold text-slate-900 truncate" title="Parka Feminina Consciência Estilo E Conforto">Parka Feminina Consciência Estilo E Conforto</h3>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Custo: R$ 115,00</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 opacity-60">
+                                <span class="font-mono text-[12px] text-slate-500 bg-slate-50 px-2 py-1 rounded">MLB305419283</span>
+                            </td>
+                            <td class="px-6 py-4 text-right opacity-60">
+                                <span class="text-sm font-bold text-slate-900">R$ 283,96</span>
+                            </td>
+                            <td class="px-6 py-4 text-center opacity-60">
+                                <span class="text-sm font-medium text-slate-400">0 unid.</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">
+                                    Encerrado
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="p-1.5 text-slate-400 hover:text-modamym-navy hover:bg-slate-100 rounded-lg transition-all">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Item 4 (Ativo) -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="h-12 w-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-100">
+                                        <img src="https://m.media-amazon.com/images/I/41Dq9Wd6B7L._AC_SY500_.jpg" alt="Produto" class="h-full w-full object-cover">
+                                    </div>
+                                    <div class="max-w-xs md:max-w-sm">
+                                        <h3 class="text-sm font-semibold text-slate-900 truncate" title="Sapato Feminino Beira Rio Ultraconforto Napa Suprema">Sapato Feminino Beira Rio Ultraconforto Napa Suprema</h3>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Custo: R$ 92,15</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-mono text-[12px] text-slate-500 bg-slate-50 px-2 py-1 rounded">MLB510624371</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="text-sm font-bold text-slate-900">R$ 143,08</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-sm font-medium text-slate-600">45 unid.</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                    Ativo
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="p-1.5 text-slate-400 hover:text-modamym-green hover:bg-green-50 rounded-lg transition-all">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 4. Rodapé da Listagem (Paginação e Stats) -->
+            <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="text-sm text-slate-500 font-medium">
+                    Total de anúncios: <span class="text-slate-900 font-bold">1.248</span>
+                </span>
+                
+                <nav class="flex items-center gap-1">
+                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-50">
+                        Anterior
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-modamym-green text-white text-xs font-bold shadow-sm shadow-modamym-green/20">
+                        1
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                        2
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                        3
+                    </button>
+                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                        Próxima
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 5. Painel Lateral (Drawer de Detalhes) -->
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity duration-300" id="drawer-backdrop"></div>
+    
+    <!-- Drawer Container -->
+    <div class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-500 ease-out" id="drawer-panel">
+        
+        <!-- Drawer Header -->
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-slate-900">Detalhes do Anúncio</h2>
+            <button class="p-2 -mr-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all" onclick="toggleDrawer()">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            
+            <!-- Imagem e Título -->
+            <div class="space-y-4">
+                <div class="aspect-square rounded-2xl bg-slate-50 border border-slate-100 overflow-hidden group">
+                    <img src="https://m.media-amazon.com/images/I/61N9u-V9JvL._AC_SY500_.jpg" alt="Produto Detalhe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 leading-tight">Bota Beira Rio Luxo - Preto Napa Elegante Croco Malibu</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">MLB429713695</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-yellow-100 text-yellow-800">Pausado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métricas Principais -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <p class="text-xs text-slate-500 font-medium mb-1">Preço Atual</p>
+                    <p class="text-xl font-black text-slate-900">R$ 195,93</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <p class="text-xs text-slate-500 font-medium mb-1">Estoque Disponível</p>
+                    <p class="text-xl font-black text-red-500">0 unid.</p>
+                </div>
+            </div>
+
+            <!-- Detalhes Financeiros -->
+            <div class="space-y-3">
+                <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Análise de Margem</h4>
+                <div class="space-y-2 border border-slate-100 rounded-xl p-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-500">Custo do Produto</span>
+                        <span class="font-medium text-slate-700">R$ 120,40</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-500">Tarifa Mercado Livre (11.5%)</span>
+                        <span class="font-medium text-slate-700">R$ 22,53</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-500">Impostos Simples (4%)</span>
+                        <span class="font-medium text-slate-700">R$ 7,84</span>
+                    </div>
+                    <div class="pt-2 mt-2 border-t border-slate-50 flex justify-between">
+                        <span class="font-bold text-slate-900">Margem Líquida</span>
+                        <span class="font-bold text-modamym-green">R$ 45,16 (23%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status do Anúncio -->
+            <div class="bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3">
+                <svg class="h-5 w-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                    <p class="text-sm font-bold text-red-800">Ação Necessária</p>
+                    <p class="text-xs text-red-600 mt-0.5 leading-relaxed">
+                        Este anúncio foi pausado automaticamente pelo sistema pois o estoque zerou no Mercado Livre. 
+                        Reponha o estoque para reativar.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-6 border-t border-slate-100 bg-slate-50/50">
+            <button class="w-full bg-modamym-navy text-white py-3 rounded-xl font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10">
+                Visualizar no Mercado Livre
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Função simples para alternar o drawer (para fins de demonstração)
+        function toggleDrawer() {
+            const panel = document.getElementById('drawer-panel');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            if (panel.style.transform === 'translateX(0%)') {
+                panel.style.transform = 'translateX(100%)';
+                backdrop.style.opacity = '0';
+                setTimeout(() => {
+                    backdrop.style.display = 'none';
+                }, 300);
+            } else {
+                backdrop.style.display = 'block';
+                setTimeout(() => {
+                    backdrop.style.opacity = '1';
+                    panel.style.transform = 'translateX(0%)';
+                }, 10);
+            }
+        }
+
+        // Inicializa o drawer aberto conforme solicitado para visualização
+        window.onload = () => {
+            const panel = document.getElementById('drawer-panel');
+            panel.style.transform = 'translateX(0%)';
+        };
+    </script>
+
+</body>
+</html>
