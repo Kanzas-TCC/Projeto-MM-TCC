@@ -7,11 +7,11 @@ app.set('view engine', 'ejs');
 
 // Define ONDE os arquivos de frontend tão e por onde o res render vai considerar como raíz
 // app.set('views', '/home/user1/projeto-tcc-dev/frontend');
-app.set('views', '../frontend/src');
+app.set('views', '/home/user1/projeto-tcc-dev/frontend/src');
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
 // app.use(express.static('/home/user1/projeto-tcc-dev/frontend')); // /var/www/modamym-dev
-app.use(express.static('../frontend/src'));
+app.use(express.static('/home/user1/projeto-tcc-dev/frontend/src'));
 
 /* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
 
