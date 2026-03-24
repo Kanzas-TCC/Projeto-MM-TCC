@@ -43,3 +43,54 @@
 html {
     scroll-behavior: smooth;
 }
+
+/* Barra de scroll fina */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 100px;
+}
+
+/* Active indicator da sidebar */
+.nav-item-active::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 18px;
+    background: #00A63E;
+    border-radius: 0 3px 3px 0;
+}
+
+/* Pseudo-círculo decorativo nos stat-cards */
+.stat-card-deco::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .04;
+}
+
+/* Status badge dot */
+.status-dot::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}

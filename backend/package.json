@@ -2,19 +2,26 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch server.js"
+    "start:dev": "tsx --env-file=.env src/server.ts",
+    "start": "tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^25.5.0",
     "axios": "^1.13.6",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
-    "mariadb": "^3.5.2"
+    "mariadb": "^3.5.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
   }
 }

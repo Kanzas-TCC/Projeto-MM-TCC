@@ -6,10 +6,12 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // Define ONDE os arquivos de frontend tão e por onde o res render vai considerar como raíz
-app.set('views', '/home/user1/projeto-tcc-dev/frontend');
+// app.set('views', '/home/user1/projeto-tcc-dev/frontend');
+app.set('views', '../frontend/src');
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
-app.use(express.static('/home/user1/projeto-tcc-dev/frontend')); // /var/www/modamym-dev
+// app.use(express.static('/home/user1/projeto-tcc-dev/frontend')); // /var/www/modamym-dev
+app.use(express.static('../frontend/src'));
 
 /* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
 
@@ -31,11 +33,21 @@ app.get('/', (req, res) => {
 
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
 
-    res.render('index.ejs', { nome: 'João' });
+    res.render('index.ejs');
 
     // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
 });
+app.get('/dashboard', (req, res) => {
+    // O Express vai procurar por 'index.ejs' dentro de '/var/www/modamym-dev'
 
+    //res.render('index');  //NÃO PRECISA DA EXTENSÃO .ejs, o 'index' no começo do render aponta pra view 'var/www/modamym-dev/index.ejs'
+
+    /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
+
+    res.render('dashboard/dashboard.ejs');
+
+    // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
+});
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
