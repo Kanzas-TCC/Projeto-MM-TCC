@@ -1,12 +1,15 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 const app = express();
 
 // Fala que é pra renderizar em ejs
 app.set('view engine', 'ejs');
 
 // Define ONDE os arquivos de frontend tão e por onde o res render vai considerar como raíz
-app.set('views', '/var/www/modamym-dev');
+app.set('views', '../frontend');
+
+// Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
+app.use(express.static(path.join(path.resolve(), '../frontend'))); // /var/www/modamym-dev
 
 /* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
 
@@ -23,13 +26,13 @@ app.set('views', '/var/www/modamym-dev');
 // o REQ é tudo que o frontend mandou pro backend, já o RES é tudo que o backend vai mandar pro frontend
 app.get('/', (req, res) => {
     // O Express vai procurar por 'index.ejs' dentro de '/var/www/modamym-dev'
-    
+
     //res.render('index');  //NÃO PRECISA DA EXTENSÃO .ejs, o 'index' no começo do render aponta pra view 'var/www/modamym-dev/index.ejs'
-    
+
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
-    
+
     res.render('index', { nome: 'João' });
-    
+
     // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
 });
 
