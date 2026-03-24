@@ -6,10 +6,10 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // Define ONDE os arquivos de frontend tão e por onde o res render vai considerar como raíz
-app.set('views', '../frontend');
+app.set('views', '/home/user1/projeto-tcc-dev/frontend');
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
-app.use(express.static(path.join(path.resolve(), '../frontend'))); // /var/www/modamym-dev
+app.use(express.static('/home/user1/projeto-tcc-dev/frontend')); // /var/www/modamym-dev
 
 /* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
 
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente, como no exemplo abaixo: ======*/
 
-    res.render('index', { nome: 'João' });
+    res.render('index.ejs', { nome: 'João' });
 
     // Assim o frontend vai conseguir chamar essa variavel através de <%= nome %> no arquivo que foi renderizado, que no caso foi o index
 });
