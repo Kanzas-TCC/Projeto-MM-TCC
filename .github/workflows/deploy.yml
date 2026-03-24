@@ -18,7 +18,7 @@ jobs:
             set -e
             cd /home/user1/projeto-tcc-dev
             git pull origin main
-            cd /home/user1/projeto-tcc-dev/@backend
+            cd /home/user1/projeto-tcc-dev/backend
             npm install --production
             pm2 restart modamym-dev
             pm2 restart tailwind-dev
