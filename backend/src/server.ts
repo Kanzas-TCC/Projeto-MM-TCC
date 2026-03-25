@@ -43,19 +43,19 @@ app.get('/', (req, res) => {
     res.render('pages/auth/login.ejs');
 });
 
-app.get('pages/auth', (req, res) => {
+app.get('/auth', (req, res) => {
     res.render('pages/auth/.ejs');
 });
 
-app.get('pages/dashboard', (req, res) => {
+app.get('/dashboard', (req, res) => {
     res.render('pages/dashboard/dashboard.ejs');
 });
 
-app.get('pages/ads-ml', (req, res) => {
+app.get('/ads-ml', (req, res) => {
     res.render('pages/dashboard/ads-ml.ejs');
 })
 
-app.get('pages/accounting', (req, res) => {
+app.get('/accounting', (req, res) => {
     res.render('pages/dashboard/accounting.ejs');
 })
 
