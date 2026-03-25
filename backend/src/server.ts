@@ -43,20 +43,27 @@ app.get('/', (req, res) => {
     res.render('pages/auth/login.ejs');
 });
 
+/* ========== Autenticação ==========*/
+
 app.get('/auth', (req, res) => {
     res.render('pages/auth/sign-up.ejs');
 });
 
+
+/* ========== Dados financeiros ==========*/
+
 app.get('/dashboard', (req, res) => {
-    res.render('pages/dashboard/dashboard.ejs');
+    res.render('pages/finances/dashboard.ejs');
 });
 
-app.get('/ads-ml', (req, res) => {
-    res.render('pages/dashboard/ads-ml.ejs');
+app.get('/accounting', (req, res) => {
+    res.render('pages/finances/accounting.ejs');
 })
 
-app.get('/accounting', (req, res) => {
-    res.render('pages/dashboard/accounting.ejs');
+/* ========== Mercado Livre ==========*/
+
+app.get('/ads-ml', (req, res) => {
+    res.render('pages/mercado-livre/ads-ml.ejs');
 })
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
