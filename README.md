@@ -1,4 +1,4 @@
-# Modamym: Ecossistema de E-commerce e Gestão Integrada
+# Modamym: Sistema Web de Gestão Integrada
 
 > Projeto de Trabalho de Conclusão de Curso (TCC)  
 > **Curso:** Desenvolvimento de Sistemas Integrado ao Ensino Médio  
@@ -70,7 +70,7 @@ A arquitetura foi desenhada focando em **segurança e separação de responsabil
 
 ---
 
-## Pré-requisitos e Instalação
+<!-- ## Pré-requisitos e Instalação
 
 Para rodar este projeto localmente para desenvolvimento ou avaliação, você precisará de:
 - [Node.js](https://nodejs.org/) (v16 ou superior)
@@ -92,7 +92,7 @@ Para rodar este projeto localmente para desenvolvimento ou avaliação, você pr
 5. Inicie o servidor Node:
    ```bash
    npm run dev
-   ```
+   ``` -->
 
 ---
 
