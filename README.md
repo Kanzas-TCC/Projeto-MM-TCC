@@ -15,7 +15,7 @@ Um ecossistema web completo desenvolvido para a **Modamym - Moda e Cosméticos**
 - [Arquitetura e Tecnologias](#-arquitetura-e-tecnologias)
 - [Funcionalidades Principais](#-funcionalidades-principais)
 - [Topologia de Integrações](#-topologia-de-integrações)
-- [Pré-requisitos e Instalação](#-pré-requisitos-e-instalação)
+<!-- - [Pré-requisitos e Instalação](#-pré-requisitos-e-instalação) -->
 - [Equipe de Desenvolvimento](#-equipe-de-desenvolvimento)
 
 ---
