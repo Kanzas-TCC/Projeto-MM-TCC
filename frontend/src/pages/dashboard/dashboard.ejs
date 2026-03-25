@@ -223,22 +223,22 @@
       <div class="grid grid-cols-4 gap-4 mb-6">
 
         <!-- Receita -->
-        <%- include('../components/stats-card.ejs', {
+        <%- include('../../components/stats-card.ejs', {
           icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" x2="12" y1="1" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>'
           , percentage: '+18%' , value: 'R$48.290' , description: 'Receita este mês' }) %>
 
           <!-- Pedidos -->
-          <%- include('../components/stats-card.ejs', {
+          <%- include('../../components/stats-card.ejs', {
             icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" x2="21" y1="6" y2="6" /></svg>'
             , percentage: '+7%' , value: '342' , description: 'Pedidos totais' }) %>
 
             <!-- Clientes -->
-            <%- include('../components/stats-card.ejs', {
+            <%- include('../../components/stats-card.ejs', {
               icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>'
               , percentage: '+23%' , value: '1.847' , description: 'Clientes ativos' }) %>
 
               <!-- Ticket médio -->
-              <%- include('../components/stats-card.ejs', {
+              <%- include('../../components/stats-card.ejs', {
                 icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>'
                 , percentage: '-3%' , value: 'R$141' , description: 'Ticket médio' }) %>
       </div>
