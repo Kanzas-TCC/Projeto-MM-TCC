@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/auth', (req, res) => {
-    res.render('pages/auth/.ejs');
+    res.render('pages/auth/sign-up.ejs');
 });
 
 app.get('/dashboard', (req, res) => {
