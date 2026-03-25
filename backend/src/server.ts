@@ -55,5 +55,9 @@ app.get('pages/ads-ml', (req, res) => {
     res.render('pages/dashboard/ads-ml.ejs');
 })
 
+app.get('pages/accounting', (req, res) => {
+    res.render('pages/dashboard/accounting.ejs');
+})
+
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
