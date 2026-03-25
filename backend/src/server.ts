@@ -1,17 +1,24 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
 const app = express();
 
 // Fala que é pra renderizar em ejs
 app.set('view engine', 'ejs');
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const publicPath = path.join(__dirname, '../../frontend/src');
+
 // Define ONDE os arquivos de frontend tão e por onde o res render vai considerar como raíz
 // app.set('views', '/home/user1/projeto-tcc-dev/frontend');
-app.set('views', '/home/user1/projeto-tcc-dev/frontend/src');
+app.set('views', publicPath);
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
 // app.use(express.static('/home/user1/projeto-tcc-dev/frontend')); // /var/www/modamym-dev
-app.use(express.static('/home/user1/projeto-tcc-dev/frontend/src'));
+app.use(express.static(publicPath));
 
 /* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
 
@@ -33,15 +40,19 @@ app.get('/', (req, res) => {
 
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente ======*/
 
-    res.render('index.ejs');
+    res.render('pages/auth/login.ejs');
 });
 
-app.get('/dashboard', (req, res) => {
-    res.render('dashboard/dashboard.ejs');
+app.get('pages/auth', (req, res) => {
+    res.render('pages/auth/.ejs');
 });
 
-app.get('/ads-ml', (req, res) => {
-    res.render('dashboard/ads-ml.ejs');
+app.get('pages/dashboard', (req, res) => {
+    res.render('pages/dashboard/dashboard.ejs');
+});
+
+app.get('pages/ads-ml', (req, res) => {
+    res.render('pages/dashboard/ads-ml.ejs');
 })
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
