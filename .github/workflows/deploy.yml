@@ -20,8 +20,8 @@ jobs:
             cd /home/user1/projeto-tcc-dev
             rm frontend/src/css/tailwind-compiled.css
             git pull origin main
+            pm2 start tailwind-dev
             cd /home/user1/projeto-tcc-dev/backend
             npm i
             npx tsc
             pm2 restart modamym-dev
-            pm2 start tailwind-dev
