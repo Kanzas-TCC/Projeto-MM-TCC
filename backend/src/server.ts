@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
 
 /* ========== Autenticação ==========*/
 
-app.use("/auth", router);
+app.use("/auth", authRouter);
 
 
 /* ========== Dados financeiros ==========*/
