@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import auth-router from "./routes/auth-route.js"
+import authRouter from "./routes/auth-route.js"
 
 const app = express();
 
