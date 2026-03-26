@@ -94,3 +94,18 @@ html {
     display: inline-block;
     flex-shrink: 0;
 }
+
+.disableSlide {
+    --tw-blur: blur(var(--blur-2xl)
+            /* 40px */
+        );
+    filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.activeSlide {
+    --tw-shadow: 0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}

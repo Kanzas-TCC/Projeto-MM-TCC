@@ -45,8 +45,12 @@ app.get('/', (req, res) => {
 
 /* ========== Autenticação ==========*/
 
-app.get('/auth', (req, res) => {
+app.get('/sign-up', (req, res) => {
     res.render('pages/auth/sign-up.ejs');
+});
+
+app.get('/forgot-password', (req, res) => {
+    res.render('pages/auth/forgot-password.ejs');
 });
 
 
