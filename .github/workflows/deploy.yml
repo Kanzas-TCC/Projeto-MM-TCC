@@ -25,3 +25,4 @@ jobs:
             npm i
             npx tsc
             pm2 restart modamym-dev
+            pm2 logs modamym-dev
