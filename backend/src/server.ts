@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import productsRouter from "./routes/products-route.js";
-import familyRouter from "./routes/family-route.js";
-import adsRouter from "./routes/ads-route.js"
-import financeRouter from "./routes/finances-route.js"
+// import productsRouter from "./routes/products-route.js";
+// import familyRouter from "./routes/family-route.js";
+// import adsRouter from "./routes/ads-route.js";
+// import financeRouter from "./routes/finances-route.js";
 
 const app = express();
 
@@ -49,31 +49,31 @@ app.get("/", (req, res) => {
 
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
-app.get("/", (req, res) => {
+app.get("/products/", (req, res) => {
   res.render("products/index");
 });
 
-app.get("/create", (req, res) => {
+app.get("/products/create", (req, res) => {
   res.render("products/create");
 });
 
-app.get("/edit/:id", (req, res) => {
+app.get("/products/edit/:id", (req, res) => {
   const { id } = req.params;
   res.render("products/edit", { id });
 });
 
 /* =========== ROTAS DE DADOS =========== */
 
-app.post("/api/create", (req, res) => {
+app.post("/products/api/create", (req, res) => {
   // Lógica para criar um produto
 });
 
-app.post("/api/edit/:id", (req, res) => {
+app.post("/products/api/edit/:id", (req, res) => {
   const { id } = req.params;
   // Lógica para editar um produto com o ID fornecido
 });
 
-app.post("/api/delete/:id", (req, res) => {
+app.post("/products/api/delete/:id", (req, res) => {
   const { id } = req.params;
   // Lógica para deletar um produto com o ID fornecido
 });
@@ -84,31 +84,31 @@ app.post("/api/delete/:id", (req, res) => {
 
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
-app.get("/", (req, res) => {
+app.get("/family/", (req, res) => {
   res.render("family/index");
 });
 
-app.get("/create", (req, res) => {
+app.get("/family/create", (req, res) => {
   res.render("family/create");
 });
 
-app.get("/edit/:id", (req, res) => {
+app.get("/family/edit/:id", (req, res) => {
   const { id } = req.params;
   res.render("family/edit", { id });
 });
 
 /* =========== ROTAS DE DADOS =========== */
 
-app.post("/api/create", (req, res) => {
+app.post("/family/api/create", (req, res) => {
   // Lógica para criar uma família
 });
 
-app.post("/api/edit/:id", (req, res) => {
+app.post("/family/api/edit/:id", (req, res) => {
   const { id } = req.params;
   // Lógica para editar uma família com o ID fornecido
 });
 
-app.post("/api/delete/:id", (req, res) => {
+app.post("/family/api/delete/:id", (req, res) => {
   const { id } = req.params;
   // Lógica para deletar uma família com o ID fornecido
 });
@@ -119,31 +119,31 @@ app.post("/api/delete/:id", (req, res) => {
 
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
-app.get("/", (req, res) => {
+app.get("/ads/", (req, res) => {
   res.render("ads/index")
 });
 
-app.get("/create", (req, res) => {
+app.get("/ads/create", (req, res) => {
   res.render("ads/create")
 });
 
-app.get("/edit/:id", (req, res) => {
+app.get("/ads/edit/:id", (req, res) => {
   const { id } = req.params
   res.render("ads/edit", { id })
 });
 
 /* =========== ROTAS DE DADOS =========== */
 
-app.post("/api/create", (req, res) => {
+app.post("/ads/api/create", (req, res) => {
   // Lógica para criar um anúncio
 });
 
-app.post("/api/edit/:id", (req, res) => {
+app.post("/ads/api/edit/:id", (req, res) => {
   const { id } = req.params
   // Lógica para editar um anúncio com o ID fornecido
 });
 
-app.post("/api/delete/:id", (req, res) => {
+app.post("/ads/api/delete/:id", (req, res) => {
   const { id } = req.params
   // Lógica para deletar um anúncio com o ID fornecido
 });
@@ -152,7 +152,7 @@ app.post("/api/delete/:id", (req, res) => {
 
 // app.use("/finances", financeRouter);
 
-app.get("/dashboard", (req, res) => {
+app.get("/finances/dashboard", (req, res) => {
     res.render("finances/dashboard");
 });
 
