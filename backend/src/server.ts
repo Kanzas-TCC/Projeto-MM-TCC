@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const publicPath = path.join(__dirname, "../../frontend/src/pages");
+const publicPath = path.resolve(__dirname, "../../frontend/src/pages");
 
 // Define ONDE os arquivos de frontend estão e por onde o res render vai considerar como raíz
 // app.set("views", "/home/user1/projeto-tcc-dev/frontend");
@@ -61,7 +61,7 @@ app.use("/ads", adsRouter);
 
 /* ========== Financeiro ==========*/
 
-app.use("/finance", financeRouter);
+app.use("/finances", financeRouter);
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
