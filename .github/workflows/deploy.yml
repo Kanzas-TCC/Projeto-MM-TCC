@@ -25,4 +25,7 @@ jobs:
             npm i
             npx tsc
             pm2 restart modamym-dev
-            pm2 logs modamym-dev
+            sleep 2
+            pm2 flush modamym-dev
+            curl -s http://localhost:3000/finances/dashboard
+            pm2 logs modamym-dev --lines 20 --nostream
