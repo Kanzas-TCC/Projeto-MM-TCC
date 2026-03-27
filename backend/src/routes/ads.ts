@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { postAds, editAds, deleteAds } from "../controllers/ads.js"
 
 const route = Router()
 
@@ -15,18 +16,10 @@ route.get("/edit/:id", (req, res) => {
   res.render("ads/edit", { id })
 });
 
-route.post("/api/create", (req, res) => {
-  // Lógica para criar um anúncio
-});
+route.post("/api/create", postAds);
 
-route.post("/api/edit/:id", (req, res) => {
-  const { id } = req.params
-  // Lógica para editar um anúncio com o ID fornecido
-});
+route.post("/api/edit/:id", editAds);
 
-route.post("/api/delete/:id", (req, res) => {
-  const { id } = req.params
-  // Lógica para deletar um anúncio com o ID fornecido
-});
+route.post("/api/delete/:id", deleteAds);
 
 export default route

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { deleteProduct, editProduct, postProduct } from "../controllers/products.js";
 
 const route = Router();
 
@@ -16,18 +17,10 @@ route.get("/edit/:id", (req, res) => {
 });
 
 
-route.post("/api/create", (req, res) => {
-  // Lógica para criar um produto
-});
+route.post("/api/create", postProduct);
 
-route.post("/api/edit/:id", (req, res) => {
-  const { id } = req.params;
-  // Lógica para editar um produto com o ID fornecido
-});
+route.post("/api/edit/:id", editProduct);
 
-route.post("/api/delete/:id", (req, res) => {
-  const { id } = req.params;
-  // Lógica para deletar um produto com o ID fornecido
-});
+route.post("/api/delete/:id", deleteProduct);
 
 export default route;

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { deleteFamily, editFamily, postFamily } from "../controllers/family.js";
 
 const route = Router();
 
@@ -15,18 +16,10 @@ route.get("/edit/:id", (req, res) => {
   res.render("family/edit", { id });
 });
 
-route.post("/api/create", (req, res) => {
-  // Lógica para criar uma família
-});
+route.post("/api/create", postFamily);
 
-route.post("/api/edit/:id", (req, res) => {
-  const { id } = req.params;
-  // Lógica para editar uma família com o ID fornecido
-});
+route.post("/api/edit/:id", editFamily);
 
-route.post("/api/delete/:id", (req, res) => {
-  const { id } = req.params;
-  // Lógica para deletar uma família com o ID fornecido
-});
+route.post("/api/delete/:id", deleteFamily);
 
 export default route;
