@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import productsRouter from "./routes/products-route";
-import familyRouter from "./routes/family-route";
-import adsRouter from "./routes/ads-route"
-import financeRouter from "./routes/finances-route"
+import productsRouter from "./routes/products-route.js";
+import familyRouter from "./routes/family-route.js";
+import adsRouter from "./routes/ads-route.js"
+import financeRouter from "./routes/finances-route.js"
 
 const app = express();
 
@@ -14,15 +14,19 @@ app.set("view engine", "ejs");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const publicPath = path.resolve(__dirname, "../../frontend/src/pages");
+const projectRoot = path.resolve(__dirname, "../..");  // /projeto-tcc-dev
+
+const backendPath = path.join(projectRoot, "backend");      // /projeto-tcc-dev/backend
+const frontendPath = path.join(projectRoot, "frontend");    // /projeto-tcc-dev/frontend
+const viewsPath = path.join(frontendPath, "src/pages");     // /projeto-tcc-dev/frontend/src/pages
 
 // Define ONDE os arquivos de frontend estão e por onde o res render vai considerar como raíz
-// app.set("views", "/home/user1/projeto-tcc-dev/frontend");
-app.set("views", publicPath);
+// app.set("views", "/home/user1/projeto-tcc-dev/frontend/src/pages");
+app.set("views", viewsPath);
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
-// app.use(express.static("/home/user1/projeto-tcc-dev/frontend")); // /var/www/modamym-dev
-app.use(express.static(publicPath));
+// app.use(express.static("/home/user1/projeto-tcc-dev/frontend/src/pages")); // /var/www/modamym-dev
+app.use(express.static(viewsPath));
 
 /* _.-=-._.-=-._.-=-._ROTAS.-=-._.-=-._.-=-._ */
 
