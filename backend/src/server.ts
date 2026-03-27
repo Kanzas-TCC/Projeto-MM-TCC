@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import productsRouter from "./routes/products-route.ts";
-import familyRouter from "./routes/family-route.ts";
-import adsRouter from "./routes/ads-route.ts"
-import financeRouter from "./routes/finances-route.ts"
+import productsRouter from "./routes/products-route";
+import familyRouter from "./routes/family-route";
+import adsRouter from "./routes/ads-route"
+import financeRouter from "./routes/finances-route"
 
 const app = express();
 
