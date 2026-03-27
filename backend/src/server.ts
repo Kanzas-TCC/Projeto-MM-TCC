@@ -153,7 +153,7 @@ app.post("/ads/api/delete/:id", (req, res) => {
 // app.use("/finances", financeRouter);
 
 app.get("/finances/dashboard", (req, res) => {
-    res.render("finances/dashboard");
+    res.render("finances/index");
 });
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
