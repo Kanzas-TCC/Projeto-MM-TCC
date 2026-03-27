@@ -59,9 +59,5 @@ app.use("/ads", adsRouter);
 
 app.use("/finances", financeRouter);
 
-console.log("__dirname:", __dirname);
-console.log("projectRoot:", projectRoot);
-console.log("viewsPath:", viewsPath);
-
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
