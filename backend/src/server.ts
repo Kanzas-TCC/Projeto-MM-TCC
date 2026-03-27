@@ -18,6 +18,7 @@ const projectRoot = path.resolve(__dirname, "../..");  // /projeto-tcc-dev
 
 const backendPath = path.join(projectRoot, "backend");      // /projeto-tcc-dev/backend
 const frontendPath = path.join(projectRoot, "frontend");    // /projeto-tcc-dev/frontend
+const staticPath = path.join(frontendPath, "src");              // /projeto-tcc-dev/frontend/src
 const viewsPath = path.join(frontendPath, "src/pages");     // /projeto-tcc-dev/frontend/src/pages
 
 // Define ONDE os arquivos de frontend estão e por onde o res render vai considerar como raíz
@@ -26,7 +27,7 @@ app.set("views", viewsPath);
 
 // Serve arquivos estáticos (CSS, JS, imagens) da pasta frontend
 // app.use(express.static("/home/user1/projeto-tcc-dev/frontend/src/pages")); // /var/www/modamym-dev
-app.use(express.static(viewsPath));
+app.use(express.static(staticPath)); 
 
 /* _.-=-._.-=-._.-=-._ROTAS.-=-._.-=-._.-=-._ */
 
