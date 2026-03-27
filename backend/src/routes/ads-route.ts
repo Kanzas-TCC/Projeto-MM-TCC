@@ -5,16 +5,16 @@ const adsRouter = Router()
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
 adsRouter.get("/", (req, res) => {
-  res.render("ads/index.ejs")
+  res.render("ads/index")
 });
 
 adsRouter.get("/create", (req, res) => {
-  res.render("ads/create.ejs")
+  res.render("ads/create")
 });
 
 adsRouter.get("/edit/:id", (req, res) => {
   const { id } = req.params
-  res.render("ads/edit.ejs", { id })
+  res.render("ads/edit", { id })
 });
 
 /* =========== ROTAS DE DADOS =========== */

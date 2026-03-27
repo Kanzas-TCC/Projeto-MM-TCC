@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import productsRouter from "./routes/products-route.js";
-import familyRouter from "./routes/family-route.js";
-import adsRouter from "./routes/ads-route.js"
-import financeRouter from "./routes/finances-route.js"
+import productsRouter from "./routes/products-route.ts";
+import familyRouter from "./routes/family-route.ts";
+import adsRouter from "./routes/ads-route.ts"
+import financeRouter from "./routes/finances-route.ts"
 
 const app = express();
 
@@ -24,15 +24,7 @@ app.set("views", publicPath);
 // app.use(express.static("/home/user1/projeto-tcc-dev/frontend")); // /var/www/modamym-dev
 app.use(express.static(publicPath));
 
-/* _.-=-._.-=-._.-=-._ROTAS DE BACKEND.-=-._.-=-._.-=-._ */
-
-/* Nada por enquanto, mas todas as rotas de backend devem ter o prefixo "/api", como no exemplo abaixo */
-
-// app.get("/api/rota", (req, res) => {
-//     res.send("Hello World!"); -----> isso manda o texto "Hello World!" pra quem fez a requisição pra essa rota.
-// });
-
-/* _.-=-._.-=-._.-=-._ROTAS DE FRONTEND.-=-._.-=-._.-=-._ */
+/* _.-=-._.-=-._.-=-._ROTAS.-=-._.-=-._.-=-._ */
 
 //Isso daqui é uma rota que renderiza o index, então ao abrir dev.modamym.com.br você vai ver primeiro a página que o res.render carregar
 /* ========== INDEX =========*/
@@ -44,7 +36,7 @@ app.get("/", (req, res) => {
 
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente ======*/
 
-    res.render("index.ejs");
+    res.render("index");
 });
 
 /* ========== Produtos ==========*/

@@ -5,7 +5,7 @@ const financesRouter = Router();
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
 financesRouter.get("/dashboard", (req, res) => {
-    res.render("finances/dashboard.ejs");
+    res.render("finances/dashboard");
 });
 
 export default financesRouter;

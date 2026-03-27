@@ -5,16 +5,16 @@ const productsRouter = Router();
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
 productsRouter.get("/", (req, res) => {
-  res.render("products/index.ejs");
+  res.render("products/index");
 });
 
 productsRouter.get("/create", (req, res) => {
-  res.render("products/create.ejs");
+  res.render("products/create");
 });
 
 productsRouter.get("/edit/:id", (req, res) => {
   const { id } = req.params;
-  res.render("products/edit.ejs", { id });
+  res.render("products/edit", { id });
 });
 
 /* =========== ROTAS DE DADOS =========== */

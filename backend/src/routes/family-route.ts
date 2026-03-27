@@ -5,16 +5,16 @@ const familyRouter = Router();
 /* =========== ROTAS DE EXIBIÇÃO =========== */
 
 familyRouter.get("/", (req, res) => {
-  res.render("family/index.ejs");
+  res.render("family/index");
 });
 
 familyRouter.get("/create", (req, res) => {
-  res.render("family/create.ejs");
+  res.render("family/create");
 });
 
 familyRouter.get("/edit/:id", (req, res) => {
   const { id } = req.params;
-  res.render("family/edit.ejs", { id });
+  res.render("family/edit", { id });
 });
 
 /* =========== ROTAS DE DADOS =========== */
