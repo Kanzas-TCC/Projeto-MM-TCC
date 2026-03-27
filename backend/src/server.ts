@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import productsRouter from "./routes/products-route.js";
 import familyRouter from "./routes/family-route.js";
 import adsRouter from "./routes/ads-route.js"
-import financeRouter from "./routes/finance-route.js"
+import financeRouter from "./routes/finances-route.js"
 
 const app = express();
 
