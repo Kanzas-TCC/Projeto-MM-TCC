@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const projectRoot = path.resolve(__dirname, "../../..");  // /projeto-tcc-dev
+const projectRoot = path.resolve(__dirname, "../..");  // /projeto-tcc-dev
 
 const backendPath = path.join(projectRoot, "backend");      // /projeto-tcc-dev/backend
 const frontendPath = path.join(projectRoot, "frontend");    // /projeto-tcc-dev/frontend
