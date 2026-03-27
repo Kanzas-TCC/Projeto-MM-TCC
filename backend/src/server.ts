@@ -45,19 +45,116 @@ app.get("/", (req, res) => {
 
 /* ========== Produtos ==========*/
 
-app.use("/products", productsRouter);
+// app.use("/products", productsRouter);
+
+/* =========== ROTAS DE EXIBIÇÃO =========== */
+
+app.get("/", (req, res) => {
+  res.render("products/index");
+});
+
+app.get("/create", (req, res) => {
+  res.render("products/create");
+});
+
+app.get("/edit/:id", (req, res) => {
+  const { id } = req.params;
+  res.render("products/edit", { id });
+});
+
+/* =========== ROTAS DE DADOS =========== */
+
+app.post("/api/create", (req, res) => {
+  // Lógica para criar um produto
+});
+
+app.post("/api/edit/:id", (req, res) => {
+  const { id } = req.params;
+  // Lógica para editar um produto com o ID fornecido
+});
+
+app.post("/api/delete/:id", (req, res) => {
+  const { id } = req.params;
+  // Lógica para deletar um produto com o ID fornecido
+});
 
 /* ========== Família ==========*/
 
-app.use("/family", familyRouter);
+// app.use("/family", familyRouter);
+
+/* =========== ROTAS DE EXIBIÇÃO =========== */
+
+app.get("/", (req, res) => {
+  res.render("family/index");
+});
+
+app.get("/create", (req, res) => {
+  res.render("family/create");
+});
+
+app.get("/edit/:id", (req, res) => {
+  const { id } = req.params;
+  res.render("family/edit", { id });
+});
+
+/* =========== ROTAS DE DADOS =========== */
+
+app.post("/api/create", (req, res) => {
+  // Lógica para criar uma família
+});
+
+app.post("/api/edit/:id", (req, res) => {
+  const { id } = req.params;
+  // Lógica para editar uma família com o ID fornecido
+});
+
+app.post("/api/delete/:id", (req, res) => {
+  const { id } = req.params;
+  // Lógica para deletar uma família com o ID fornecido
+});
 
 /* ========== Anúncios ==========*/
 
-app.use("/ads", adsRouter);
+// app.use("/ads", adsRouter);
+
+/* =========== ROTAS DE EXIBIÇÃO =========== */
+
+app.get("/", (req, res) => {
+  res.render("ads/index")
+});
+
+app.get("/create", (req, res) => {
+  res.render("ads/create")
+});
+
+app.get("/edit/:id", (req, res) => {
+  const { id } = req.params
+  res.render("ads/edit", { id })
+});
+
+/* =========== ROTAS DE DADOS =========== */
+
+app.post("/api/create", (req, res) => {
+  // Lógica para criar um anúncio
+});
+
+app.post("/api/edit/:id", (req, res) => {
+  const { id } = req.params
+  // Lógica para editar um anúncio com o ID fornecido
+});
+
+app.post("/api/delete/:id", (req, res) => {
+  const { id } = req.params
+  // Lógica para deletar um anúncio com o ID fornecido
+});
 
 /* ========== Financeiro ==========*/
 
-app.use("/finances", financeRouter);
+// app.use("/finances", financeRouter);
+
+app.get("/dashboard", (req, res) => {
+    res.render("finances/dashboard");
+});
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
