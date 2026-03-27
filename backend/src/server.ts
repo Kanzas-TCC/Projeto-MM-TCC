@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import authRouter from "./routes/auth-route.js"
+import productsRouter from "./routes/products-route.js";
+import familyRouter from "./routes/family-route.js";
+import adsRouter from "./routes/ads-route.js"
+import financeRouter from "./routes/finance-route.js"
 
 const app = express();
 
@@ -11,7 +14,7 @@ app.set("view engine", "ejs");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const publicPath = path.join(__dirname, "../../frontend/src");
+const publicPath = path.join(__dirname, "../../frontend/src/pages");
 
 // Define ONDE os arquivos de frontend estão e por onde o res render vai considerar como raíz
 // app.set("views", "/home/user1/projeto-tcc-dev/frontend");
@@ -41,29 +44,24 @@ app.get("/", (req, res) => {
 
     /* ====== se alguma rota precisar passar alguma variavel pro frontend é só colocar objeto na frente ======*/
 
-    res.render("pages/auth/login.ejs");
+    res.render("index.ejs");
 });
 
-/* ========== Autenticação ==========*/
+/* ========== Produtos ==========*/
 
-app.use("/auth", authRouter);
+app.use("/products", productsRouter);
 
+/* ========== Família ==========*/
 
-/* ========== Dados financeiros ==========*/
+app.use("/family", familyRouter);
 
-app.get("/dashboard", (req, res) => {
-    res.render("pages/finances/dashboard.ejs");
-});
+/* ========== Anúncios ==========*/
 
-app.get("/accounting", (req, res) => {
-    res.render("pages/finances/accounting.ejs");
-})
+app.use("/ads", adsRouter);
 
-/* ========== Mercado Livre ==========*/
+/* ========== Financeiro ==========*/
 
-app.get("/ads-ml", (req, res) => {
-    res.render("pages/mercado-livre/ads-ml.ejs");
-})
+app.use("/finance", financeRouter);
 
 // Roda o servidor inteiro do backend na porta 3000 do servidor
 app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
