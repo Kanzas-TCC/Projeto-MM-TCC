@@ -24,4 +24,5 @@ jobs:
             cd /home/user1/projeto-tcc-dev/backend
             npm i
             npx tsc
+            cat dist/server.js
             pm2 restart modamym-dev
