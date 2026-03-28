@@ -7,6 +7,8 @@ import familyRouter from "./routes/family.js";
 import adsRouter from "./routes/ads.js";
 import financeRouter from "./routes/finances.js";
 
+import { indexController } from "./controllers/index.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,10 +33,7 @@ function createApp() {
     app.use("/ads", adsRouter);
     app.use("/finances", financeRouter);
 
-    //Rota raiz
-    app.get("/", (req, res) => {
-        res.render("index");
-    });
+    app.get("/", indexController);
 
     return app;
 }

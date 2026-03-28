@@ -28,6 +28,8 @@
     --color-emerald-600: oklch(59.6% 0.145 163.225);
     --color-emerald-700: oklch(50.8% 0.118 165.612);
     --color-emerald-800: oklch(43.2% 0.095 166.913);
+    --color-blue-100: oklch(93.2% 0.032 255.585);
+    --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-rose-50: oklch(96.9% 0.015 12.422);
     --color-rose-100: oklch(94.1% 0.03 12.58);
     --color-rose-500: oklch(64.5% 0.246 16.439);
@@ -533,9 +535,6 @@
   .w-6 {
     width: calc(var(--spacing) * 6);
   }
-  .w-6\/12 {
-    width: calc(6 / 12 * 100%);
-  }
   .w-7\/12 {
     width: calc(7 / 12 * 100%);
   }
@@ -545,17 +544,11 @@
   .w-8\.5 {
     width: calc(var(--spacing) * 8.5);
   }
-  .w-8\/12 {
-    width: calc(8 / 12 * 100%);
-  }
   .w-9\.5 {
     width: calc(var(--spacing) * 9.5);
   }
   .w-10 {
     width: calc(var(--spacing) * 10);
-  }
-  .w-10\/12 {
-    width: calc(10 / 12 * 100%);
   }
   .w-11 {
     width: calc(var(--spacing) * 11);
@@ -587,6 +580,9 @@
   .w-auto {
     width: auto;
   }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
   }
@@ -601,9 +597,6 @@
   }
   .max-w-105 {
     max-width: calc(var(--spacing) * 105);
-  }
-  .max-w-125 {
-    max-width: calc(var(--spacing) * 125);
   }
   .max-w-\[160px\] {
     max-width: 160px;
@@ -924,6 +917,9 @@
   .bg-amber-100 {
     background-color: var(--color-amber-100);
   }
+  .bg-blue-100 {
+    background-color: var(--color-blue-100);
+  }
   .bg-emerald-50 {
     background-color: var(--color-emerald-50);
   }
@@ -947,6 +943,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-red-50) 10%, transparent);
     }
+  }
+  .bg-red-100 {
+    background-color: var(--color-red-100);
   }
   .bg-rose-50\/30 {
     background-color: color-mix(in srgb, oklch(96.9% 0.015 12.422) 30%, transparent);
@@ -1384,6 +1383,9 @@
   }
   .text-black {
     color: var(--color-black);
+  }
+  .text-blue-600 {
+    color: var(--color-blue-600);
   }
   .text-emerald-600 {
     color: var(--color-emerald-600);

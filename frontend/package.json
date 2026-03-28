@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tailwind": "tailwindcss -i ./src/css/tailwind.css -o ./src/css/tailwind-compiled.css --watch"
+    "tailwind": "tailwindcss -i ./src/css/tailwind.css -o ./src/css/tailwind-compiled.css --watch",
+    "lint:ejs": "ejslint src/**/*.ejs"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,8 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.2.2",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "ejs-lint": "^2.0.1"
   }
 }

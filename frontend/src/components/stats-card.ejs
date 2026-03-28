@@ -1,11 +1,12 @@
 <div
     class="stat-card-deco relative bg-white rounded-2xl p-[22px_24px] border-[1.5px] border-[#E5E7EB] overflow-hidden transition-all duration-200 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:-translate-y-0.5">
     <div class="flex items-start justify-between mb-4">
-        <div class="w-[42px] h-[42px] rounded-xl flex items-center justify-center shrink-0 bg-[#e8f7ee] text-[#00A63E]">
+        <div
+            class="w-[42px] h-[42px] rounded-xl flex items-center justify-center shrink-0 bg-[#e8f7ee] text-[<%= color %>] ">
             <%- icon %>
         </div>
         <span
-            class="flex items-center gap-1 text-[12px] font-semibold rounded-full px-2 py-1 bg-[#e8f7ee] text-[#00A63E]">
+            class="flex items-center gap-1 text-[12px] font-semibold rounded-full px-2 py-1 bg-[#e8f7ee] text-[<%= color %>] ">
             <%= percentage %>
         </span>
     </div>
