@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODAMYM — Cadastro via NF-e</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../css/tailwind-compiled.css">
+    <style>
+        .spin {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2.5px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all .3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+
+<body class="font-dm bg-[#F4F6F8] text-[#101828] flex min-h-screen">
+
+    <!-- ══════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════ -->
+
+    <%- include('../../components/sidebar.ejs') -%>
+
+        <!-- ══════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════ -->
+        <div class="ml-[240px] flex-1 flex flex-col min-h-screen">
+
+            <!-- Topbar -->
+            <div
+                class="bg-white border-b border-[#E5E7EB] px-8 h-16 flex items-center justify-between sticky top-0 z-40">
+                <div class="flex items-center gap-4">
+                    <span class="text-[17px] font-bold text-[#101828]">Cadastro de Produtos via NF-e</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        class="w-[38px] h-[38px] rounded-[10px] border-[1.5px] border-[#E5E7EB] bg-white cursor-pointer flex items-center justify-center text-[#6A7282] relative transition-all hover:border-[#00A63E] hover:text-[#00A63E]">
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        <div
+                            class="absolute top-1.5 right-1.5 w-[7px] h-[7px] bg-red-500 rounded-full border-2 border-white">
+                        </div>
+                    </button>
+                    <button
+                        class="w-[38px] h-[38px] rounded-[10px] border-[1.5px] border-[#E5E7EB] bg-white cursor-pointer flex items-center justify-center text-[#6A7282] transition-all hover:border-[#00A63E] hover:text-[#00A63E]">
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 flex-1">
+
+                <!-- ── STEPPER ── -->
+                <div class="flex items-center bg-white border-[1.5px] border-[#E5E7EB] rounded-2xl px-6 py-[18px] mb-7">
+
+                    <div class="flex items-center gap-2.5 flex-1">
+                        <div id="step1-num"
+                            class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-blue-500 text-white shadow-[0_0_0_4px_rgba(59,130,246,0.15)] transition-all">
+                            1</div>
+                        <div>
+                            <div id="step1-label" class="text-[13px] font-bold text-[#101828]">Consulta da Nota</div>
+                            <div class="text-[11px] text-[#6A7282]">Chave de acesso NF-e</div>
+                        </div>
+                    </div>
+
+                    <div id="conn1" class="h-0.5 bg-[#E5E7EB] mx-4 w-[60px] max-w-[60px] transition-all duration-300">
+                    </div>
+
+                    <div class="flex items-center gap-2.5 flex-1">
+                        <div id="step2-num"
+                            class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-[#F4F6F8] text-[#99A1AF] border-2 border-[#E5E7EB] transition-all">
+                            2</div>
+                        <div>
+                            <div id="step2-label" class="text-[13px] font-bold text-[#99A1AF] transition-all">Auditoria
+                                e
+                                Revisão</div>
+                            <div class="text-[11px] text-[#6A7282]">Revisão dos itens</div>
+                        </div>
+                    </div>
+
+                    <div id="conn2" class="h-0.5 bg-[#E5E7EB] mx-4 w-[60px] max-w-[60px] transition-all duration-300">
+                    </div>
+
+                    <div class="flex items-center gap-2.5 flex-1">
+                        <div id="step3-num"
+                            class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-[#F4F6F8] text-[#99A1AF] border-2 border-[#E5E7EB] transition-all">
+                            3</div>
+                        <div>
+                            <div id="step3-label" class="text-[13px] font-bold text-[#99A1AF] transition-all">
+                                Confirmação
+                            </div>
+                            <div class="text-[11px] text-[#6A7282]">Registrar no estoque</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ══════════════════════
+         ETAPA 1 — CONSULTA
+    ══════════════════════ -->
+                <div id="etapa1">
+
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden mb-5">
+                        <div class="px-6 py-4 flex items-center justify-between border-b border-[#E5E7EB]">
+                            <div>
+                                <div class="text-sm font-bold text-[#101828]">🔍 Consultar Nota Fiscal Eletrônica</div>
+                                <div class="text-xs text-[#6A7282] mt-0.5">Informe a chave de acesso de 44 dígitos para
+                                    buscar a NF-e na Sefaz</div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <label class="block text-xs font-bold text-[#101828] mb-1.5" for="nfe-key">Chave de Acesso
+                                da
+                                NF-e</label>
+                            <div class="flex gap-2.5 items-start">
+                                <div class="flex-1">
+                                    <input type="text" id="nfe-key"
+                                        class="w-full px-4 py-3 border-[1.5px] border-[#E5E7EB] rounded-[10px] text-sm font-medium text-[#101828] bg-white outline-none transition-all tracking-[0.5px] placeholder:text-[#99A1AF] placeholder:font-normal placeholder:tracking-normal focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)]"
+                                        placeholder="0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000"
+                                        maxlength="59" oninput="onKeyInput(this)"
+                                        onkeydown="if(event.key==='Enter')consultarNota()" />
+                                    <div id="key-counter" class="text-[11px] text-[#99A1AF] text-right mt-1">0 / 44
+                                        dígitos
+                                    </div>
+                                </div>
+                                <button
+                                    class="inline-flex items-center gap-1.5 px-5 py-3 bg-[#00A63E] text-white rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all hover:bg-[#009435] active:scale-[.98] disabled:opacity-45 disabled:cursor-not-allowed disabled:scale-100 whitespace-nowrap"
+                                    id="btn-consultar" onclick="consultarNota()" disabled>
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        viewBox="0 0 24 24">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                    </svg>
+                                    Consultar Nota
+                                </button>
+                            </div>
+                            <div class="text-[11px] text-[#6A7282] mt-1.5">A chave pode ser lida pelo QR Code da DANFE
+                                ou
+                                copiada do XML da nota.</div>
+                        </div>
+                    </div>
+
+                    <!-- Info alert -->
+                    <div
+                        class="flex items-start gap-3 bg-blue-50 border-[1.5px] border-blue-200 text-blue-700 rounded-xl px-[18px] py-4 mb-5">
+                        <div class="text-lg flex-shrink-0 mt-0.5">ℹ️</div>
+                        <div>
+                            <div class="text-[13.5px] font-bold mb-0.5">Como funciona</div>
+                            <div class="text-[12.5px] opacity-85 leading-relaxed">Após informar a chave, o sistema
+                                consultará a Sefaz em tempo real, retornará os dados da nota e seus itens para revisão
+                                antes
+                                do cadastro no estoque.</div>
+                        </div>
+                    </div>
+
+                </div><!-- /etapa1 -->
+
+
+                <!-- ══════════════════════════════
+         ETAPA 2 — AUDITORIA
+    ══════════════════════════════ -->
+                <div id="etapa2" class="hidden">
+
+                    <!-- Info alert -->
+                    <div
+                        class="flex items-start gap-3 bg-blue-50 border-[1.5px] border-blue-200 text-blue-700 rounded-xl px-[18px] py-4 mb-5">
+                        <div class="text-lg flex-shrink-0 mt-0.5">✏️</div>
+                        <div>
+                            <div class="text-[13.5px] font-bold mb-0.5">Revise antes de confirmar</div>
+                            <div class="text-[12.5px] opacity-85 leading-relaxed">Todos os campos dos itens são
+                                editáveis.
+                                Clique em qualquer célula para corrigir dados da nota antes de cadastrar no estoque.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações da nota -->
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden mb-5">
+                        <div class="px-6 py-4 flex items-center justify-between border-b border-[#E5E7EB]">
+                            <div>
+                                <div class="text-sm font-bold text-[#101828]">📄 Informações da Nota</div>
+                                <div class="text-xs text-[#6A7282] mt-0.5" id="nota-chave-display">—</div>
+                            </div>
+                            <span
+                                class="inline-flex items-center gap-1.5 bg-green-100 text-green-700 rounded-full px-2.5 py-1 text-[11px] font-bold">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    viewBox="0 0 24 24">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                                Nota Válida · Sefaz
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-3 gap-3.5">
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        Razão Social do Fornecedor</div>
+                                    <div class="text-[13.5px] font-bold text-[#101828] leading-snug" id="nota-razao">—
+                                    </div>
+                                </div>
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        CNPJ
+                                        Emissor</div>
+                                    <div class="text-[13.5px] font-bold text-[#101828] font-mono tracking-[0.3px]"
+                                        id="nota-cnpj">—</div>
+                                </div>
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        Data
+                                        de Emissão</div>
+                                    <div class="text-[13.5px] font-bold text-[#101828]" id="nota-data">—</div>
+                                </div>
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        Número da Nota</div>
+                                    <div class="text-[13.5px] font-bold text-[#101828] font-mono tracking-[0.3px]"
+                                        id="nota-num">—</div>
+                                </div>
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        Valor Total</div>
+                                    <div class="text-[13.5px] font-bold text-[#00A63E]" id="nota-valor">—</div>
+                                </div>
+                                <div class="bg-[#F4F6F8] rounded-[10px] px-4 py-3.5">
+                                    <div class="text-[11px] text-[#6A7282] font-medium uppercase tracking-[0.4px] mb-1">
+                                        Qtd.
+                                        de Itens</div>
+                                    <div class="text-[13.5px] font-bold text-[#101828]" id="nota-qtd-itens">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de itens editável -->
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden mb-5">
+                        <div class="px-6 py-4 flex items-center justify-between border-b border-[#E5E7EB]">
+                            <div>
+                                <div class="text-sm font-bold text-[#101828]">📦 Itens da Nota</div>
+                                <div class="text-xs text-[#6A7282] mt-0.5">Edite diretamente na tabela para corrigir
+                                    inconsistências</div>
+                            </div>
+                            <button onclick="resetEdits()"
+                                class="inline-flex items-center gap-1.5 px-3.5 py-[7px] border-[1.5px] border-[#E5E7EB] bg-white rounded-[9px] text-xs font-semibold text-[#6A7282] cursor-pointer transition-all hover:border-[#101828] hover:text-[#101828]">
+                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    viewBox="0 0 24 24">
+                                    <polyline points="1 4 1 10 7 10" />
+                                    <path d="M3.51 15a9 9 0 1 0 .49-3.68" />
+                                </svg>
+                                Restaurar Original
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-[#F4F6F8]">
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            #</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            Nome do Produto</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-center text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            Qtd.</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-right text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            Valor Unit.</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            EAN</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            NCM</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            CEST</th>
+                                        <th
+                                            class="px-5 py-2.5 text-right text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase whitespace-nowrap border-b border-[#E5E7EB]">
+                                            Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itens-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2.5 mb-5">
+                        <button onclick="voltarEtapa1()"
+                            class="inline-flex items-center gap-1.5 px-[18px] py-2.5 bg-white text-red-500 border-[1.5px] border-red-200 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all hover:bg-red-50 hover:border-red-500">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <line x1="19" y1="12" x2="5" y2="12" />
+                                <polyline points="12 19 5 12 12 5" />
+                            </svg>
+                            Cancelar e Reconsultar
+                        </button>
+                        <button onclick="irEtapa3()"
+                            class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#00A63E] text-white rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all hover:bg-[#009435] active:scale-[.98]">
+                            Prosseguir para Confirmação
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </button>
+                    </div>
+
+                </div><!-- /etapa2 -->
+
+
+                <!-- ══════════════════════════════
+         ETAPA 3 — CONFIRMAÇÃO
+    ══════════════════════════════ -->
+                <div id="etapa3" class="hidden">
+
+                    <!-- Alert -->
+                    <div
+                        class="flex items-start gap-3 bg-blue-50 border-[1.5px] border-blue-200 text-blue-700 rounded-xl px-[18px] py-4 mb-5">
+                        <div class="text-lg flex-shrink-0 mt-0.5">🔒</div>
+                        <div>
+                            <div class="text-[13.5px] font-bold mb-0.5">Revisão final antes do cadastro</div>
+                            <div class="text-[12.5px] opacity-85 leading-relaxed">Ao confirmar, a NF-e e todos os itens
+                                serão registrados no estoque. Esta ação não pode ser desfeita. Verifique o resumo
+                                abaixo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resumo -->
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden mb-5">
+                        <div class="px-6 py-4 border-b border-[#E5E7EB]">
+                            <div class="text-sm font-bold text-[#101828]">✅ Resumo do Cadastro</div>
+                            <div class="text-xs text-[#6A7282] mt-0.5">Confira os totais antes de confirmar</div>
+                        </div>
+                        <div class="px-6 py-5 flex gap-0">
+                            <div class="text-center pr-4 border-r border-[#E5E7EB]">
+                                <div class="text-[15px] font-bold text-[#101828]" id="resumo-fornecedor">—</div>
+                                <div class="text-[11px] text-[#6A7282] mt-0.5 font-medium">Fornecedor</div>
+                            </div>
+                            <div class="text-center px-4 border-r border-[#E5E7EB]">
+                                <div class="text-[20px] font-bold text-[#101828]" id="resumo-data">—</div>
+                                <div class="text-[11px] text-[#6A7282] mt-0.5 font-medium">Data de Emissão</div>
+                            </div>
+                            <div class="text-center px-4 border-r border-[#E5E7EB]">
+                                <div class="text-[20px] font-bold text-blue-500" id="resumo-itens">—</div>
+                                <div class="text-[11px] text-[#6A7282] mt-0.5 font-medium">Itens na Nota</div>
+                            </div>
+                            <div class="text-center px-4 border-r border-[#E5E7EB]">
+                                <div class="text-[20px] font-bold text-[#101828]" id="resumo-qtd">—</div>
+                                <div class="text-[11px] text-[#6A7282] mt-0.5 font-medium">Unidades Totais</div>
+                            </div>
+                            <div class="text-center px-4">
+                                <div class="text-[20px] font-bold text-[#00A63E]" id="resumo-valor">—</div>
+                                <div class="text-[11px] text-[#6A7282] mt-0.5 font-medium">Valor Total da Nota</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Itens (read-only) -->
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden mb-5">
+                        <div class="px-6 py-4 border-b border-[#E5E7EB]">
+                            <div class="text-sm font-bold text-[#101828]">📋 Itens a Cadastrar</div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-[#F4F6F8]">
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            #</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            Nome do Produto</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-center text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            Qtd.</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-right text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            Valor Unit.</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            EAN</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            NCM</th>
+                                        <th
+                                            class="px-3.5 py-2.5 text-left text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            CEST</th>
+                                        <th
+                                            class="pr-5 py-2.5 text-right text-[11px] font-bold text-[#6A7282] tracking-[0.4px] uppercase border-b border-[#E5E7EB]">
+                                            Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="confirm-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2.5 items-center mb-5">
+                        <button onclick="voltarEtapa2()"
+                            class="inline-flex items-center gap-1.5 px-[18px] py-2.5 bg-white text-[#101828] border-[1.5px] border-[#E5E7EB] rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all hover:border-[#101828]">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <line x1="19" y1="12" x2="5" y2="12" />
+                                <polyline points="12 19 5 12 12 5" />
+                            </svg>
+                            Voltar e Editar
+                        </button>
+                        <button id="btn-cadastrar" onclick="cadastrarEstoque()"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-[#00A63E] text-white rounded-[10px] text-sm font-bold cursor-pointer transition-all shadow-[0_4px_16px_rgba(0,166,62,0.3)] hover:bg-[#009435] hover:shadow-[0_6px_20px_rgba(0,166,62,0.4)] active:scale-[.98] disabled:opacity-45 disabled:cursor-not-allowed disabled:shadow-none">
+                            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                            Cadastrar no Estoque
+                        </button>
+                    </div>
+
+                </div><!-- /etapa3 -->
+
+
+                <!-- ══════════════════════════════
+         ETAPA 4 — SUCESSO
+    ══════════════════════════════ -->
+                <div id="etapa4" class="hidden">
+                    <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden">
+                        <div class="text-center px-10 py-[60px]">
+                            <div class="text-[52px] mb-4">✅</div>
+                            <div class="text-[20px] font-bold text-[#101828] mb-2">NF-e registrada com sucesso!</div>
+                            <div class="text-sm text-[#6A7282] max-w-[420px] mx-auto mb-7 leading-relaxed"
+                                id="sucesso-desc">—</div>
+                            <div class="flex gap-2.5 justify-center">
+                                <button onclick="novaNota()"
+                                    class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#00A63E] text-white rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all hover:bg-[#009435]">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        viewBox="0 0 24 24">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    Cadastrar Nova Nota
+                                </button>
+                                <button onclick="alert('Redirecionando para estoque...')"
+                                    class="inline-flex items-center gap-1.5 px-[18px] py-2.5 bg-white text-[#101828] border-[1.5px] border-[#E5E7EB] rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all hover:border-[#101828]">
+                                    Ver Estoque
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        viewBox="0 0 24 24">
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12 5 19 12 12 19" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /etapa4 -->
+
+            </div><!-- /content -->
+        </div><!-- /main -->
+
+        <!-- ── TOAST ── -->
+        <div class="fixed bottom-7 right-7 flex flex-col gap-2.5 z-[200]" id="toast-wrap"></div>
+
+        <script>
+            /* ── MOCK DATA ── */
+            const mockNotas = {
+                '35240312345678000195550010000012341234567890': {
+                    razao: 'DISTRIBUIDORA TÊXTIL NORTE LTDA', cnpj: '12.345.678/0001-95', data: '24/03/2025', numero: '000012341', valor: 'R$ 4.872,50',
+                    itens: [
+                        { nome: 'Blusa Feminina Estampada', qty: 20, unit: 48.90, ean: '7891234560001', ncm: '61091000', cest: '28.038.00' },
+                        { nome: 'Calça Jeans Slim Feminina', qty: 15, unit: 129.90, ean: '7891234560002', ncm: '62034200', cest: '28.052.00' },
+                        { nome: 'Vestido Midi Floral', qty: 10, unit: 189.90, ean: '7891234560003', ncm: '62044200', cest: '28.038.00' },
+                        { nome: 'Camiseta Básica Unissex', qty: 30, unit: 39.90, ean: '7891234560004', ncm: '61091000', cest: '28.038.00' },
+                        { nome: 'Shorts Alfaiataria', qty: 12, unit: 89.90, ean: '7891234560005', ncm: '62034900', cest: '28.052.00' },
+                    ]
+                },
+                '35240498765432000144550010000056785678901234': {
+                    razao: 'MODA FASHION ATACADO S/A', cnpj: '98.765.432/0001-44', data: '18/03/2025', numero: '000056781', valor: 'R$ 11.340,00',
+                    itens: [
+                        { nome: 'Jaqueta Jeans Oversized', qty: 8, unit: 249.90, ean: '7899876540001', ncm: '62031200', cest: '28.052.00' },
+                        { nome: 'Moletom Cropped', qty: 25, unit: 119.90, ean: '7899876540002', ncm: '61101200', cest: '28.038.00' },
+                        { nome: 'Saia Midi Plissada', qty: 14, unit: 149.90, ean: '7899876540003', ncm: '62045200', cest: '28.038.00' },
+                    ]
+                }
+            };
+
+            let notaAtual = null, itensEditados = [], originalItens = [];
+
+            /* ── KEY INPUT ── */
+            function onKeyInput(input) {
+                let raw = input.value.replace(/\D/g, '').slice(0, 44);
+                input.value = raw.match(/.{1,4}/g)?.join(' ') || '';
+                const digits = raw.length;
+                const counter = document.getElementById('key-counter');
+                const btn = document.getElementById('btn-consultar');
+                counter.textContent = `${digits} / 44 dígitos`;
+                counter.className = 'text-[11px] text-right mt-1 ' + (digits === 44 ? 'text-[#00A63E] font-semibold' : digits > 44 ? 'text-red-500 font-semibold' : 'text-[#99A1AF]');
+                input.classList.remove('border-red-400', 'border-[#00A63E]', 'shadow-[0_0_0_3px_rgba(0,166,62,0.1)]', 'shadow-[0_0_0_3px_rgba(239,68,68,0.1)]');
+                btn.disabled = digits !== 44;
+            }
+
+            /* ── CONSULTAR ── */
+            function consultarNota() {
+                const rawKey = document.getElementById('nfe-key').value.replace(/\s/g, '');
+                if (rawKey.length !== 44) return;
+                const btn = document.getElementById('btn-consultar');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spin"></span> Consultando Sefaz…';
+                showToast('Consultando nota na Sefaz…', 'loading');
+                setTimeout(() => {
+                    const nota = mockNotas[rawKey] || mockNotas[Object.keys(mockNotas)[0]];
+                    notaAtual = { ...nota, chave: rawKey };
+                    originalItens = nota.itens.map(i => ({ ...i }));
+                    itensEditados = nota.itens.map(i => ({ ...i }));
+                    document.getElementById('nfe-key').classList.add('!border-[#00A63E]', '!shadow-[0_0_0_3px_rgba(0,166,62,0.1)]');
+                    btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Consultar Nota';
+                    btn.disabled = false;
+                    preencherEtapa2();
+                    showToast('Nota encontrada! Revise os dados antes de cadastrar.', 'success');
+                }, 1800);
+            }
+
+            /* ── PREENCHER E2 ── */
+            function preencherEtapa2() {
+                const n = notaAtual;
+                document.getElementById('nota-chave-display').textContent = 'Chave: ' + n.chave;
+                document.getElementById('nota-razao').textContent = n.razao;
+                document.getElementById('nota-cnpj').textContent = n.cnpj;
+                document.getElementById('nota-data').textContent = n.data;
+                document.getElementById('nota-num').textContent = n.numero;
+                document.getElementById('nota-valor').textContent = n.valor;
+                document.getElementById('nota-qtd-itens').textContent = n.itens.length + ' itens';
+                renderItensTable();
+                setStep(2);
+            }
+
+            /* ── RENDER TABLE (EDITÁVEL) ── */
+            function renderItensTable() {
+                const tbody = document.getElementById('itens-tbody');
+                tbody.innerHTML = '';
+                itensEditados.forEach((item, idx) => {
+                    const orig = originalItens[idx];
+                    const total = (item.qty * item.unit).toFixed(2);
+                    const ch = (field) => String(item[field]) !== String(orig[field]);
+                    const inputBase = 'w-full border-[1.5px] rounded-[7px] px-2.5 py-1.5 text-[13px] font-medium text-[#101828] bg-transparent outline-none transition-all hover:border-[#E5E7EB] hover:bg-[#F4F6F8] focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_3px_rgba(59,130,246,0.08)]';
+                    const changed = ' !border-amber-400 !bg-amber-50';
+                    const dot = (c) => `<div class="w-[5px] h-[5px] rounded-full bg-amber-400 ml-1.5 flex-shrink-0 transition-opacity ${c ? 'opacity-100' : 'opacity-0'}"></div>`;
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-[#E5E7EB] last:border-b-0 transition-colors hover:bg-[#FAFBFC]';
+                    tr.innerHTML = `
+      <td class="px-3.5 py-0"><div class="py-2.5 flex items-center text-[12px] font-semibold text-[#99A1AF]">${idx + 1}</div></td>
+      <td><div class="px-3.5 py-2 flex items-center min-w-[200px]">
+        <input class="${inputBase} border-transparent${ch('nome') ? changed : ''}" value="${esc(item.nome)}" oninput="updateItem(${idx},'nome',this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('nome'))}
+      </div></td>
+      <td><div class="px-3.5 py-2 flex items-center justify-end">
+        <input class="${inputBase} border-transparent text-right max-w-[72px]${ch('qty') ? changed : ''}" type="number" min="1" value="${item.qty}" oninput="updateItem(${idx},'qty',+this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('qty'))}
+      </div></td>
+      <td><div class="px-3.5 py-2 flex items-center justify-end">
+        <input class="${inputBase} border-transparent text-right max-w-[90px]${ch('unit') ? changed : ''}" type="number" step="0.01" min="0" value="${item.unit.toFixed(2)}" oninput="updateItem(${idx},'unit',+this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('unit'))}
+      </div></td>
+      <td><div class="px-3.5 py-2 flex items-center">
+        <input class="${inputBase} border-transparent font-mono text-[12px] min-w-[130px]${ch('ean') ? changed : ''}" value="${esc(item.ean)}" oninput="updateItem(${idx},'ean',this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('ean'))}
+      </div></td>
+      <td><div class="px-3.5 py-2 flex items-center">
+        <input class="${inputBase} border-transparent font-mono text-[12px] min-w-[100px]${ch('ncm') ? changed : ''}" value="${esc(item.ncm)}" oninput="updateItem(${idx},'ncm',this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('ncm'))}
+      </div></td>
+      <td><div class="px-3.5 py-2 flex items-center">
+        <input class="${inputBase} border-transparent font-mono text-[12px] min-w-[100px]${ch('cest') ? changed : ''}" value="${esc(item.cest)}" oninput="updateItem(${idx},'cest',this.value)" onblur="refreshRow(${idx})"/>
+        ${dot(ch('cest'))}
+      </div></td>
+      <td><div class="pr-5 py-2.5 flex items-center justify-end text-[13px] font-bold text-[#101828] whitespace-nowrap" id="total-${idx}">R$ ${total.replace('.', ',')}</div></td>
+    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            function updateItem(idx, field, val) {
+                itensEditados[idx][field] = val;
+                if (field === 'qty' || field === 'unit') {
+                    const total = (itensEditados[idx].qty * itensEditados[idx].unit).toFixed(2);
+                    const el = document.getElementById('total-' + idx);
+                    if (el) el.textContent = 'R$ ' + total.replace('.', ',');
+                }
+            }
+
+            function refreshRow(idx) { renderItensTable(); }
+
+            function resetEdits() {
+                itensEditados = originalItens.map(i => ({ ...i }));
+                renderItensTable();
+                showToast('Dados restaurados para o original da nota.', 'success');
+            }
+
+            function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+            /* ── ETAPA 3 ── */
+            function irEtapa3() {
+                const totalQtd = itensEditados.reduce((s, i) => s + (i.qty || 0), 0);
+                const totalValor = itensEditados.reduce((s, i) => s + (i.qty * i.unit), 0);
+                document.getElementById('resumo-fornecedor').textContent = notaAtual.razao;
+                document.getElementById('resumo-data').textContent = notaAtual.data;
+                document.getElementById('resumo-itens').textContent = itensEditados.length;
+                document.getElementById('resumo-qtd').textContent = totalQtd + ' un.';
+                document.getElementById('resumo-valor').textContent = 'R$ ' + totalValor.toFixed(2).replace('.', ',');
+                renderConfirmTable();
+                setStep(3);
+            }
+
+            function renderConfirmTable() {
+                const tbody = document.getElementById('confirm-tbody');
+                tbody.innerHTML = '';
+                itensEditados.forEach((item, idx) => {
+                    const total = (item.qty * item.unit).toFixed(2);
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-[#E5E7EB] last:border-b-0 hover:bg-[#FAFBFC]';
+                    tr.innerHTML = `
+      <td class="px-3.5 py-3"><div class="text-[12px] font-semibold text-[#99A1AF]">${idx + 1}</div></td>
+      <td class="px-3.5 py-3"><div class="text-[13px] font-semibold text-[#101828]">${esc(item.nome)}</div></td>
+      <td class="px-3.5 py-3 text-center"><div class="text-[13px] font-bold text-[#101828]">${item.qty}</div></td>
+      <td class="px-3.5 py-3 text-right"><div class="text-[13px] text-[#101828]">R$ ${item.unit.toFixed(2).replace('.', ',')}</div></td>
+      <td class="px-3.5 py-3"><div class="font-mono text-[12px] text-[#6A7282]">${esc(item.ean)}</div></td>
+      <td class="px-3.5 py-3"><div class="font-mono text-[12px] text-[#6A7282]">${esc(item.ncm)}</div></td>
+      <td class="px-3.5 py-3"><div class="font-mono text-[12px] text-[#6A7282]">${esc(item.cest)}</div></td>
+      <td class="pr-5 py-3 text-right"><div class="text-[13px] font-bold text-[#101828]">R$ ${total.replace('.', ',')}</div></td>
+    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            /* ── CADASTRAR ── */
+            function cadastrarEstoque() {
+                const btn = document.getElementById('btn-cadastrar');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spin"></span> Registrando…';
+                showToast('Enviando dados para o sistema…', 'loading');
+                setTimeout(() => {
+                    const totalValor = itensEditados.reduce((s, i) => s + (i.qty * i.unit), 0);
+                    const totalQtd = itensEditados.reduce((s, i) => s + (i.qty || 0), 0);
+                    document.getElementById('sucesso-desc').innerHTML =
+                        `<strong>${itensEditados.length} produtos</strong> e <strong>${totalQtd} unidades</strong> foram adicionados ao estoque.<br>` +
+                        `NF-e nº ${notaAtual.numero} do fornecedor <strong>${notaAtual.razao}</strong> registrada com valor total de <strong>R$ ${totalValor.toFixed(2).replace('.', ',')}</strong>.`;
+                    setStep(4);
+                    showToast('Estoque atualizado com sucesso!', 'success');
+                }, 2200);
+            }
+
+            /* ── NAVEGAÇÃO ── */
+            function setStep(step) {
+                [1, 2, 3, 4].forEach(n => {
+                    document.getElementById('etapa' + n).classList.toggle('hidden', n !== step);
+                });
+                [1, 2, 3].forEach(n => {
+                    const numEl = document.getElementById('step' + n + '-num');
+                    const lblEl = document.getElementById('step' + n + '-label');
+                    if (n < step) {
+                        numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-[#00A63E] text-white transition-all';
+                        numEl.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+                        lblEl.className = 'text-[13px] font-bold text-[#101828] transition-all';
+                    } else if (n === step) {
+                        numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-blue-500 text-white shadow-[0_0_0_4px_rgba(59,130,246,0.15)] transition-all';
+                        numEl.textContent = n;
+                        lblEl.className = 'text-[13px] font-bold text-[#101828] transition-all';
+                    } else {
+                        numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-[#F4F6F8] text-[#99A1AF] border-2 border-[#E5E7EB] transition-all';
+                        numEl.textContent = n;
+                        lblEl.className = 'text-[13px] font-bold text-[#99A1AF] transition-all';
+                    }
+                });
+                const c1 = document.getElementById('conn1');
+                const c2 = document.getElementById('conn2');
+                if (c1) c1.className = 'h-0.5 mx-4 w-[60px] max-w-[60px] transition-all duration-300 ' + (step > 1 ? 'bg-[#00A63E]' : 'bg-[#E5E7EB]');
+                if (c2) c2.className = 'h-0.5 mx-4 w-[60px] max-w-[60px] transition-all duration-300 ' + (step > 2 ? 'bg-[#00A63E]' : 'bg-[#E5E7EB]');
+            }
+
+            function voltarEtapa1() {
+                const btn = document.getElementById('btn-consultar');
+                const input = document.getElementById('nfe-key');
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Consultar Nota';
+                input.classList.remove('!border-[#00A63E]', '!shadow-[0_0_0_3px_rgba(0,166,62,0.1)]');
+                setStep(1);
+            }
+            function voltarEtapa2() { setStep(2); }
+            function novaNota() {
+                const input = document.getElementById('nfe-key');
+                input.value = '';
+                input.classList.remove('!border-[#00A63E]', '!shadow-[0_0_0_3px_rgba(0,166,62,0.1)]');
+                document.getElementById('key-counter').textContent = '0 / 44 dígitos';
+                document.getElementById('key-counter').className = 'text-[11px] text-[#99A1AF] text-right mt-1';
+                const btn = document.getElementById('btn-consultar');
+                btn.disabled = true;
+                btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Consultar Nota';
+                notaAtual = null; itensEditados = []; originalItens = [];
+                setStep(1);
+            }
+
+            /* ── TOAST ── */
+            function showToast(msg, type = 'success') {
+                const wrap = document.getElementById('toast-wrap');
+                const t = document.createElement('div');
+                const colors = { success: 'bg-green-700', error: 'bg-red-500', loading: 'bg-blue-700' };
+                const icon = { success: '✅', error: '❌', loading: '🔄' }[type];
+                t.className = `toast ${colors[type]} text-white rounded-xl px-[18px] py-3.5 text-[13px] font-medium flex items-center gap-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] max-w-[340px]`;
+                t.innerHTML = `<span class="text-base flex-shrink-0">${icon}</span>${msg}`;
+                wrap.appendChild(t);
+                setTimeout(() => t.classList.add('show'), 10);
+                setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3000);
+            }
+
+            /* ── INIT ── */
+            setStep(1);
+        </script>
+</body>
+
+</html>

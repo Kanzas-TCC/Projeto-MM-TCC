@@ -15,9 +15,8 @@
         <div class="mb-6">
             <div class="text-[10px] font-bold text-white/30 tracking-[1.2px] uppercase px-3 mb-1.5">Geral</div>
 
-            <a href="/" class="<% if (currentPage === '/') { %> nav-item-active<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                               <% if (currentPage === '/') { %>bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } %> text-white/75 text-[13.5px] font-medium no-underline
-                               transition-all duration-150">
+            <a href="/"
+                class="<% if (currentPage === '/') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -27,26 +26,14 @@
                 </svg>
                 Dashboard
             </a>
-
-            <!-- <a href="#" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                               text-white/75 text-[13.5px] font-medium no-underline
-                               transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
-                <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
-                Clientes
-            </a> -->
         </div>
 
         <!-- Anúncios -->
         <div class="mb-6">
             <div class="text-[10px] font-bold text-white/30 tracking-[1.2px] uppercase px-3 mb-1.5">Anúncios</div>
 
-            <a href="/ads" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/ads"
+                class="<% if (currentPage === '/ads') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path
@@ -55,9 +42,8 @@
                 Gestão de Anúncios
             </a>
 
-            <a href="/ads/create" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/ads/create"
+                class="<% if (currentPage === '/ads/create') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path d="M12 5v14m-7-7h14" />
@@ -65,9 +51,8 @@
                 Criar Anúncios
             </a>
 
-            <a href="/ads/edit" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/ads/edit"
+                class="<% if (currentPage === '/ads/edit') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -81,9 +66,8 @@
         <div class="mb-6">
             <div class="text-[10px] font-bold text-white/30 tracking-[1.2px] uppercase px-3 mb-1.5">Produtos</div>
 
-            <a href="/products" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/products"
+                class="<% if (currentPage === '/products') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -93,9 +77,8 @@
                 Produtos
             </a>
 
-            <a href="/products/create" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/products/create"
+                class="<% if (currentPage === '/products/create') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path d="M12 5v14m-7-7h14" />
@@ -103,9 +86,8 @@
                 Criar Produtos
             </a>
 
-            <a href="/products/edit" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                       text-white/75 text-[13.5px] font-medium no-underline
-                       transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/products/edit"
+                class="<% if (currentPage === '/products/edit') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -119,9 +101,8 @@
         <div class="mb-6">
             <div class="text-[10px] font-bold text-white/30 tracking-[1.2px] uppercase px-3 mb-1.5">Finanças</div>
 
-            <a href="/finances" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                               text-white/75 text-[13.5px] font-medium no-underline
-                               transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/finances"
+                class="<% if (currentPage === '/finances') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <line x1="12" x2="12" y1="1" y2="23" />
@@ -135,9 +116,8 @@
         <div class="mb-6">
             <div class="text-[10px] font-bold text-white/30 tracking-[1.2px] uppercase px-3 mb-1.5">Sistema</div>
 
-            <a href="#" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                               text-white/75 text-[13.5px] font-medium no-underline
-                               transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
+            <a href="/settings"
+                class="<% if (currentPage === '/settings') { %>nav-item-active bg-[rgba(0,166,62,0.2)] text-[#4ade80]<% } else { %>text-white/75 hover:bg-white/[0.07] hover:text-white/90<% } %> relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer text-[13.5px] font-medium no-underline transition-all duration-150">
                 <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="3" />
@@ -145,17 +125,6 @@
                 </svg>
                 Configurações
             </a>
-
-            <!-- <a href="modamym-store.html" class="relative flex items-center gap-2.75 px-3 py-2.25 rounded-[9px] cursor-pointer
-                               text-white/75 text-[13.5px] font-medium no-underline
-                               transition-all duration-150 hover:bg-white/[0.07] hover:text-white/90">
-                <svg class="w-4.25 h-4.25 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-                Ver Loja
-            </a> -->
         </div>
     </nav>
 

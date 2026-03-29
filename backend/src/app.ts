@@ -34,7 +34,7 @@ function createApp() {
         next();
     });
 
-    app.use("/product", productRouter);
+    app.use("/products", productRouter);
     app.use("/family", familyRouter);
     app.use("/ads", adsRouter);
     app.use("/finances", financeRouter);
