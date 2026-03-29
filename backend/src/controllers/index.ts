@@ -10,8 +10,6 @@ export const indexController = async (req: Request, res: Response) => {
         let year = d.getFullYear();
         let day = d.getDate();
 
-
-
         res.render("index", { month, year, day });
     } catch (error) {
         console.error(error);

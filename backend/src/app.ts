@@ -28,12 +28,19 @@ function createApp() {
 
     app.use(express.static(staticPath));
 
+    // Passa a URL atual para todas as views
+    app.use((req, res, next) => {
+        res.locals.currentPage = req.path;
+        next();
+    });
+
     app.use("/product", productRouter);
     app.use("/family", familyRouter);
     app.use("/ads", adsRouter);
     app.use("/finances", financeRouter);
 
     app.get("/", indexController);
+
 
     return app;
 }
