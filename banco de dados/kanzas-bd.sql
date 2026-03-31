@@ -91,19 +91,6 @@ create table venda (
 );
 
 -- ==========================================
--- tabela: usuario
--- ==========================================
-create table usuario (
-    id_usuario int auto_increment primary key,
-    nome varchar(255) not null,
-    email varchar(255) not null unique,
-    senha_hash varchar(255) not null,
-    nivel enum('admin', 'comum') not null,
-
-    index idx_email (email)
-);
-
--- ==========================================
 -- seed de dados fictícios
 -- ==========================================
 
@@ -157,13 +144,4 @@ insert into venda (
 (1, 'mlb100001', 'sp', 'sorocaba', '2026-03-10 14:30:00'),
 (2, 'mlb100002', 'rj', 'rio de janeiro', '2026-03-12 09:15:00'),
 (3, 'mlb100003', 'mg', 'belo horizonte', '2026-03-15 18:45:00');
-
-insert into usuario (
-    nome,
-    email,
-    senha_hash,
-    nivel
-) values
-('administrador', 'admin@kanzas.com', '$2y$10$hashbcryptadmin', 'admin'),
-('joão silva', 'joao@kanzas.com', '$2y$10$hashbcryptjoao', 'comum');
 ```
