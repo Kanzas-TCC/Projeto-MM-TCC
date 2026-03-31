@@ -1,4 +1,6 @@
-<aside class="w-60 bg-[#101828] min-h-screen fixed left-0 top-0 bottom-0 flex flex-col z-50">
+<!-- === INÍCIO DAS ALTERAÇÕES: SIDEBAR DESKTOP === -->
+<!-- A classe 'hidden md:flex' oculta a sidebar vertical no mobile e exibe apenas em telas md ou maiores -->
+<aside class="hidden md:flex w-64 bg-[#101828] h-screen fixed left-0 top-0 flex-col z-50">
 
     <!-- Logo -->
     <div class="px-6 pt-7 pb-6 border-b border-white/8 flex items-center gap-2.5">
@@ -142,3 +144,49 @@
         </div>
     </div>
 </aside>
+<!-- === FIM DAS ALTERAÇÕES: SIDEBAR DESKTOP === -->
+
+<!-- === INÍCIO DAS ALTERAÇÕES: BOTTOMBAR MOBILE === -->
+<!-- A classe 'md:hidden' garante que esta barra inferior apareça apenas no mobile, e os links secundários são ocultados como solicitado -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex flex-row justify-around items-center bg-white border-t border-slate-200 py-2 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    
+    <!-- 1. Geral (Dashboard) -->
+    <a href="/" class="flex flex-col items-center justify-center <% if (currentPage === '/') { %>text-emerald-700<% } else { %>text-slate-500 hover:text-slate-900<% } %> transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        <span class="text-[10px] font-medium mt-1">Geral</span>
+    </a>
+
+    <!-- 2. Anúncios -->
+    <a href="/ads" class="flex flex-col items-center justify-center <% if (currentPage === '/ads' || currentPage === '/ads/create' || currentPage === '/ads/edit') { %>text-emerald-700<% } else { %>text-slate-500 hover:text-slate-900<% } %> transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M19 11H5m14 0a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2m14 0V9a2 2 0 0 0-2-2M5 11V9a2 2 0 0 1 2-2m0 0V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 7h10" />
+        </svg>
+        <span class="text-[10px] font-medium mt-1">Anúncios</span>
+    </a>
+
+    <!-- 3. Produtos -->
+    <a href="/products" class="flex flex-col items-center justify-center <% if (currentPage === '/products' || currentPage === '/products/create' || currentPage === '/products/edit') { %>text-emerald-700<% } else { %>text-slate-500 hover:text-slate-900<% } %> transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" x2="21" y1="6" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+        <span class="text-[10px] font-medium mt-1">Produtos</span>
+    </a>
+
+    <!-- 4. Finanças -->
+    <a href="/finances" class="flex flex-col items-center justify-center <% if (currentPage === '/finances') { %>text-emerald-700<% } else { %>text-slate-500 hover:text-slate-900<% } %> transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="12" x2="12" y1="1" y2="23" />
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        </svg>
+        <span class="text-[10px] font-medium mt-1">Finanças</span>
+    </a>
+
+</nav>
+<!-- === FIM DAS ALTERAÇÕES: BOTTOMBAR MOBILE === -->
