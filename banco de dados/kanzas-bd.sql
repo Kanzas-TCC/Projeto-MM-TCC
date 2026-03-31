@@ -5,9 +5,22 @@ create database if not exists kanzas_bd;
 use kanzas_bd;
 
 -- ==========================================
--- tabela: nota_fiscal_entrada
+-- tabela: usuarios
 -- ==========================================
-create table nota_fiscal_entrada (
+create table usuarios (
+    id_usuario int auto_increment primary key,
+    nome varchar(255) not null,
+    email varchar(255) not null unique,
+    senha_hash varchar(255) not null,
+    nivel enum('admin', 'comum') not null default 'comum',
+
+    index idx_email (email)
+);
+
+-- ==========================================
+-- tabela: notas_fiscais_entrada
+-- ==========================================
+create table notas_fiscais_entrada (
     id_nfe int auto_increment primary key,
     codigo_nfe varchar(44) not null unique,
     fornecedor varchar(255) not null,
@@ -18,9 +31,9 @@ create table nota_fiscal_entrada (
 );
 
 -- ==========================================
--- tabela: item_nota_fiscal_entrada
+-- tabela: itens_nota_fiscal_entrada
 -- ==========================================
-create table item_nota_fiscal_entrada (
+create table itens_nota_fiscal_entrada (
     id_infe int auto_increment primary key,
     id_item int not null unique,
     id_nfe int not null,
@@ -36,7 +49,7 @@ create table item_nota_fiscal_entrada (
 
     constraint fk_item_nfe
         foreign key (id_nfe)
-        references nota_fiscal_entrada(id_nfe)
+        references notas_fiscais_entrada(id_nfe)
         on delete cascade
         on update cascade
 );
@@ -51,15 +64,15 @@ create table familia (
 
     constraint fk_familia_item
         foreign key (id_item)
-        references item_nota_fiscal_entrada(id_item)
+        references itens_nota_fiscal_entrada(id_item)
         on delete cascade
         on update cascade
 );
 
 -- ==========================================
--- tabela: anuncio
+-- tabela: anuncios
 -- ==========================================
-create table anuncio (
+create table anuncios (
     id_anuncio int auto_increment primary key,
     id_familia int not null unique,
     valor_venda decimal(10,2) not null,
@@ -73,9 +86,9 @@ create table anuncio (
 );
 
 -- ==========================================
--- tabela: venda
+-- tabela: vendas
 -- ==========================================
-create table venda (
+create table vendas (
     id_venda int auto_increment primary key,
     id_anuncio int not null,
     cod_venda varchar(50) not null,
@@ -85,7 +98,7 @@ create table venda (
 
     constraint fk_venda_anuncio
         foreign key (id_anuncio)
-        references anuncio(id_anuncio)
+        references anuncios(id_anuncio)
         on delete cascade
         on update cascade
 );
@@ -94,7 +107,16 @@ create table venda (
 -- seed de dados fictícios
 -- ==========================================
 
-insert into nota_fiscal_entrada (
+insert into usuarios (
+    nome,
+    email,
+    senha_hash,
+    nivel
+) values
+('Admin Sistema', 'admin@modamym.com', '$2b$12$placeholderHashAdminUsuario123456789012345678', 'admin'),
+('Usuário Comum', 'usuario@modamym.com', '$2b$12$placeholderHashComumUsuario123456789012345678', 'comum');
+
+insert into notas_fiscais_entrada (
     codigo_nfe,
     fornecedor,
     descricao,
@@ -103,7 +125,7 @@ insert into nota_fiscal_entrada (
 ('12345678901234567890123456789012345678901234', 'fornecedor alpha ltda', 'compra de eletrônicos', '2026-03-01'),
 ('98765432109876543210987654321098765432109876', 'fornecedor beta me', 'compra de acessórios', '2026-03-05');
 
-insert into item_nota_fiscal_entrada (
+insert into itens_nota_fiscal_entrada (
     id_item,
     id_nfe,
     nome,
@@ -125,7 +147,7 @@ insert into familia (
 (1002, 'linha teclado mecânico'),
 (1003, 'linha fones bluetooth');
 
-insert into anuncio (
+insert into anuncios (
     id_familia,
     valor_venda,
     tipo_anuncio
@@ -134,7 +156,7 @@ insert into anuncio (
 (2, 349.90, 'classico'),
 (3, 219.90, 'premium');
 
-insert into venda (
+insert into vendas (
     id_anuncio,
     cod_venda,
     estado,
