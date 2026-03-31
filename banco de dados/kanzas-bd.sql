@@ -5,19 +5,6 @@ create database if not exists kanzas_bd;
 use kanzas_bd;
 
 -- ==========================================
--- tabela: usuarios
--- ==========================================
-create table usuarios (
-    id_usuario int auto_increment primary key,
-    nome varchar(255) not null,
-    email varchar(255) not null unique,
-    senha_hash varchar(255) not null,
-    nivel enum('admin', 'comum') not null default 'comum',
-
-    index idx_email (email)
-);
-
--- ==========================================
 -- tabela: notas_fiscais_entrada
 -- ==========================================
 create table notas_fiscais_entrada (
@@ -106,15 +93,6 @@ create table vendas (
 -- ==========================================
 -- seed de dados fictícios
 -- ==========================================
-
-insert into usuarios (
-    nome,
-    email,
-    senha_hash,
-    nivel
-) values
-('Admin Sistema', 'admin@modamym.com', '$2b$12$placeholderHashAdminUsuario123456789012345678', 'admin'),
-('Usuário Comum', 'usuario@modamym.com', '$2b$12$placeholderHashComumUsuario123456789012345678', 'comum');
 
 insert into notas_fiscais_entrada (
     codigo_nfe,
