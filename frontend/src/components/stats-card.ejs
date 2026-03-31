@@ -1,19 +1,19 @@
 <div
-    class="stat-card-deco relative bg-white rounded-2xl p-[22px_24px] border-[1.5px] border-[#E5E7EB] overflow-hidden transition-all duration-200 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:-translate-y-0.5">
+    class="stat-card-deco relative bg-white rounded-xl p-4 md:p-6 border border-slate-100 shadow-sm overflow-hidden transition-shadow duration-200 hover:shadow-md">
     <div class="flex items-start justify-between mb-4">
         <div
-            class="w-[42px] h-[42px] rounded-xl flex items-center justify-center shrink-0 bg-[#e8f7ee] text-[<%= color %>] ">
+            class="w-10 h-10 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 bg-[#e8f7ee] text-[<%= color %>] ">
             <%- icon %>
         </div>
         <span
-            class="flex items-center gap-1 text-[12px] font-semibold rounded-full px-2 py-1 bg-[#e8f7ee] text-[<%= color %>] ">
+            class="flex items-center gap-1 text-[11px] md:text-xs font-semibold rounded-full px-2 py-1 bg-[#e8f7ee] text-[<%= color %>] ">
             <%= percentage %>
         </span>
     </div>
-    <div class="text-[28px] font-bold text-[#101828] tracking-[-1px] leading-none mb-1">
+    <div class="text-xl md:text-3xl font-bold text-slate-900 tracking-tight leading-none mb-1">
         <%= value %>
     </div>
-    <div class="text-[12.5px] text-[#6A7282] font-medium">
+    <div class="text-xs md:text-[13px] text-slate-500 font-medium">
         <%= description %>
     </div>
 </div>

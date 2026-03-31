@@ -6,563 +6,383 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODAMYM — Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/tailwind-compiled.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        dm: ['"DM Sans"', 'sans-serif'],
+                        playfair: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        modamym: {
+                            green: '#00A63E',
+                            navy: '#0a0f1a',
+                            slate: {
+                                50: '#F4F6F8',
+                                900: '#101828',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="font-dm bg-[#F4F6F8] text-[#101828] flex min-h-screen">
+<body class="font-dm bg-slate-50 text-slate-900 flex min-h-screen">
 
     <!-- SIDEBAR -->
     <%- include('../components/sidebar.ejs') -%>
 
-        <!-- MAIN -->
-        <div class="ml-60 flex-1 flex flex-col min-h-screen">
+    <!-- MAIN (Oversight resolvido via layout flex empurrando md:ml-64 e ml-0 em Mobile) -->
+    <main class="md:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300 w-full overflow-hidden">
 
-            <!-- Top Bar -->
-            <%- include('../components/navbar.ejs', {month, year, day}) -%>
+        <!-- Top Bar -->
+        <%- include('../components/navbar.ejs', {month, year, day}) -%>
 
-                <!-- Content -->
-                <div class="p-8 flex-1">
+        <!-- Content (Mobile first paddings e respiro fixo no rodapé) -->
+        <div class="px-4 py-6 md:p-8 pb-24 md:pb-8 flex-1 w-full mx-auto max-w-7xl">
 
-                    <!-- ── Stats Grid ── -->
-                    <div class="grid grid-cols-4 gap-4 mb-6">
+            <!-- ── 1. Stats Grid (KPIs empilhados: grid-cols-2 no mobile) ── -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
 
-                        <!-- Receita -->
-                        <%- include('../components/stats-card.ejs', {
-                            icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" x2="12" y1="1" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>'
-                            , percentage: '+18%' , value: 'R$48.290' , description: 'Receita este mês' ,
-                            color: '#00A63E' }) %>
+                <!-- Receita -->
+                <%- include('../components/stats-card.ejs', {
+                    icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" x2="12" y1="1" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>',
+                    percentage: '+18%', value: 'R$48.290', description: 'Receita este mês', color: '#00A63E' }) %>
 
-                            <!-- Pedidos (azul) -->
-                            <%- include('../components/stats-card.ejs', {
-                                icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" x2="21" y1="6" y2="6" /></svg>'
-                                , percentage: '+7%' , value: '342' , description: 'Pedidos totais' , color: '#3B82F6' })
-                                %>
+                <!-- Pedidos -->
+                <%- include('../components/stats-card.ejs', {
+                    icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" x2="21" y1="6" y2="6" /></svg>',
+                    percentage: '+7%', value: '342', description: 'Pedidos totais', color: '#3B82F6' }) %>
 
-                                <!-- Clientes (vermelho) -->
-                                <%- include('../components/stats-card.ejs', {
-                                    icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>'
-                                    , percentage: '+23%' , value: '1.847' , description: 'Clientes ativos' ,
-                                    color: '#F59E0B' }) %>
+                <!-- Clientes -->
+                <%- include('../components/stats-card.ejs', {
+                    icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>',
+                    percentage: '+23%', value: '1.847', description: 'Clientes ativos', color: '#F59E0B' }) %>
 
-                                    <!-- Ticket médio (amarelo) -->
-                                    <%- include('../components/stats-card.ejs', {
-                                        icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>'
-                                        , percentage: '-3%' , value: 'R$141' , description: 'Ticket médio' ,
-                                        color: '#EF4444' }) %>
+                <!-- Ticket médio -->
+                <%- include('../components/stats-card.ejs', {
+                    icon: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>',
+                    percentage: '-3%', value: 'R$141', description: 'Ticket médio', color: '#EF4444' }) %>
+            </div>
+
+            <!-- ── 2. Charts Row (Flex-col no mobile, Grid no Desktop) ── -->
+            <div class="flex flex-col lg:grid lg:grid-cols-[1.6fr_1fr] gap-4 mb-6 md:mb-8">
+
+                <!-- Revenue Chart -->
+                <!-- Estética Limpa: bg-white rounded-xl shadow-sm border border-slate-100 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden w-full flex flex-col">
+                    <div class="px-4 md:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                        <div>
+                            <div class="text-[14.5px] font-bold text-slate-900">Receita Mensal</div>
+                            <div class="text-[12px] text-slate-500 mt-0.5">Janeiro – Março 2026</div>
+                        </div>
+                        <button class="px-3 py-1.5 bg-slate-50 rounded-lg text-xs font-semibold border border-slate-200 text-slate-600 hover:border-modamym-green hover:text-modamym-green transition-colors">
+                            Este ano
+                        </button>
                     </div>
-
-                    <!-- ── Charts Row ── -->
-                    <div class="grid grid-cols-[1.6fr_1fr] gap-4 mb-6">
-
-                        <!-- Revenue Chart -->
-                        <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden">
-                            <div class="px-6 pt-5 pb-4 border-b border-[#E5E7EB] flex items-center justify-between">
-                                <div>
-                                    <div class="text-[14.5px] font-bold text-[#101828]">Receita Mensal</div>
-                                    <div class="text-[12px] text-[#6A7282] mt-0.5">Janeiro – Março 2026</div>
-                                </div>
-                                <button
-                                    class="px-3 py-1.25 rounded-full text-[11px] font-semibold border border-[#E5E7EB] text-[#6A7282] cursor-pointer hover:border-[#00A63E] hover:text-[#00A63E] transition-colors duration-200">
-                                    Este ano
-                                </button>
+                    
+                    <!-- Graph Area with safe horizontal scroll for overflow in compact screens -->
+                    <div class="p-4 md:p-6 overflow-x-auto w-full flex-1">
+                        <!-- Bars: Altura fixa segura (h-[200px]) p/ não colidir verticalmente -->
+                        <div class="flex items-end gap-2 h-[200px] min-w-[450px] px-1">
+                            <!-- Jan -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:60%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Jan</span>
                             </div>
-                            <div class="p-6">
-                                <!-- Bars -->
-                                <div class="flex items-end gap-2 h-45 px-1">
-                                    <!-- Jan -->
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)] transition-all duration-300"
-                                                style="height:60%"></div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Jan</span>
-                                    </div>
-                                    <!-- Fev -->
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)] transition-all duration-300"
-                                                style="height:75%"></div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Fev</span>
-                                    </div>
-                                    <!-- Mar (active) -->
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[linear-gradient(180deg,#00A63E,#059669)] transition-all duration-300"
-                                                style="height:90%"></div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Mar</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:45%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Abr</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:55%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Mai</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:68%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Jun</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:72%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Jul</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:80%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Ago</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:65%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Set</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:85%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Out</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:95%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Nov</span>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-2">
-                                        <div
-                                            class="flex-1 bg-[#F4F6F8] rounded-md w-full flex items-end overflow-hidden">
-                                            <div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:100%">
-                                            </div>
-                                        </div>
-                                        <span class="text-[10px] text-[#99A1AF] font-medium">Dez</span>
-                                    </div>
-                                </div>
-
-                                <!-- Summary -->
-                                <div class="flex justify-between mt-5 pt-4 border-t border-[#E5E7EB]">
-                                    <div class="text-center">
-                                        <div class="text-[18px] font-bold text-[#101828]">R$48.290</div>
-                                        <div class="text-[11px] text-[#6A7282]">Março (atual)</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[18px] font-bold text-[#101828]">R$39.840</div>
-                                        <div class="text-[11px] text-[#6A7282]">Fevereiro</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[18px] font-bold text-[#101828]">R$32.100</div>
-                                        <div class="text-[11px] text-[#6A7282]">Janeiro</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-[18px] font-bold text-[#00A63E]">+18%</div>
-                                        <div class="text-[11px] text-[#6A7282]">vs mês anterior</div>
-                                    </div>
-                                </div>
+                            <!-- Fev -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:75%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Fev</span>
+                            </div>
+                            <!-- Mar (active) -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[linear-gradient(180deg,#00A63E,#059669)]" style="height:90%"></div></div>
+                                <span class="text-[10px] text-slate-900 font-bold">Mar</span>
+                            </div>
+                            <!-- Abril -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:45%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Abr</span>
+                            </div>
+                            <!-- Maio -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:55%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Mai</span>
+                            </div>
+                            <!-- Junho -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:68%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Jun</span>
+                            </div>
+                            <!-- Julho -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:72%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Jul</span>
+                            </div>
+                            <!-- Agosto -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:80%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Ago</span>
+                            </div>
+                            <!-- Setembro -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:65%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Set</span>
+                            </div>
+                            <!-- Out -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:85%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Out</span>
+                            </div>
+                            <!-- Nov -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:95%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Nov</span>
+                            </div>
+                            <!-- Dez -->
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="flex-1 bg-slate-50 rounded-md w-full flex items-end overflow-hidden"><div class="w-full rounded-md bg-[rgba(0,166,62,0.12)]" style="height:100%"></div></div>
+                                <span class="text-[10px] text-slate-400 font-medium">Dez</span>
                             </div>
                         </div>
 
-                        <!-- Donut Chart -->
-                        <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden">
-                            <div class="px-6 pt-5 pb-4 border-b border-[#E5E7EB]">
-                                <div class="text-[14.5px] font-bold text-[#101828]">Vendas por Categoria</div>
-                                <div class="text-[12px] text-[#6A7282] mt-0.5">Distribuição atual</div>
+                        <!-- Summary (Adaptação para 2 colunas se estiver muito apertado) -->
+                        <div class="grid grid-cols-2 lg:flex justify-between mt-5 pt-4 border-t border-slate-100 gap-y-3 lg:gap-0">
+                            <div class="text-center lg:text-left">
+                                <div class="text-[16px] md:text-[18px] font-bold text-slate-900">R$48.290</div>
+                                <div class="text-[11px] text-slate-500">Março (atual)</div>
                             </div>
-                            <div class="p-6">
-                                <div class="flex items-center gap-6">
-                                    <svg class="shrink-0" width="140" height="140" viewBox="0 0 140 140">
-                                        <circle cx="70" cy="70" r="50" fill="none" stroke="#F4F6F8" stroke-width="22" />
-                                        <circle cx="70" cy="70" r="50" fill="none" stroke="#00A63E" stroke-width="22"
-                                            stroke-dasharray="131.9 314.16" stroke-dashoffset="0" stroke-linecap="butt"
-                                            transform="rotate(-90 70 70)" />
-                                        <circle cx="70" cy="70" r="50" fill="none" stroke="#3B82F6" stroke-width="22"
-                                            stroke-dasharray="87.96 314.16" stroke-dashoffset="-131.9"
-                                            stroke-linecap="butt" transform="rotate(-90 70 70)" />
-                                        <circle cx="70" cy="70" r="50" fill="none" stroke="#F59E0B" stroke-width="22"
-                                            stroke-dasharray="56.55 314.16" stroke-dashoffset="-219.86"
-                                            stroke-linecap="butt" transform="rotate(-90 70 70)" />
-                                        <circle cx="70" cy="70" r="50" fill="none" stroke="#E5E7EB" stroke-width="22"
-                                            stroke-dasharray="37.7 314.16" stroke-dashoffset="-276.41"
-                                            stroke-linecap="butt" transform="rotate(-90 70 70)" />
-                                        <text x="70" y="65" text-anchor="middle" font-size="20" font-weight="700"
-                                            fill="#101828" font-family="DM Sans,sans-serif">42%</text>
-                                        <text x="70" y="82" text-anchor="middle" font-size="10" fill="#99A1AF"
-                                            font-family="DM Sans,sans-serif">Calçados</text>
-                                    </svg>
-                                    <div class="flex flex-col gap-2.5">
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#00A63E]"></div>
-                                            <span class="text-[12.5px] text-[#6A7282]">Calçados</span>
-                                            <span class="text-[13px] font-bold text-[#101828] ml-auto">42%</span>
-                                        </div>
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#3B82F6]"></div>
-                                            <span class="text-[12.5px] text-[#6A7282]">Jaquetas</span>
-                                            <span class="text-[13px] font-bold text-[#101828] ml-auto">28%</span>
-                                        </div>
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#F59E0B]"></div>
-                                            <span class="text-[12.5px] text-[#6A7282]">Botas</span>
-                                            <span class="text-[13px] font-bold text-[#101828] ml-auto">18%</span>
-                                        </div>
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#E5E7EB]"></div>
-                                            <span class="text-[12.5px] text-[#6A7282]">Outros</span>
-                                            <span class="text-[13px] font-bold text-[#101828] ml-auto">12%</span>
-                                        </div>
-                                    </div>
+                            <div class="text-center lg:text-left">
+                                <div class="text-[16px] md:text-[18px] font-bold text-slate-900">R$39.840</div>
+                                <div class="text-[11px] text-slate-500">Fevereiro</div>
+                            </div>
+                            <div class="text-center lg:text-left">
+                                <div class="text-[16px] md:text-[18px] font-bold text-slate-900">R$32.100</div>
+                                <div class="text-[11px] text-slate-500">Janeiro</div>
+                            </div>
+                            <div class="text-center lg:text-left">
+                                <div class="text-[16px] md:text-[18px] font-bold text-[#00A63E]">+18%</div>
+                                <div class="text-[11px] text-slate-500">vs mês anterior</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden w-full flex flex-col">
+                    <div class="px-4 md:px-6 py-4 border-b border-slate-100">
+                        <div class="text-[14.5px] font-bold text-slate-900">Vendas por Categoria</div>
+                        <div class="text-[12px] text-slate-500 mt-0.5">Distribuição atual</div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col items-center justify-center">
+                        <div class="flex flex-col sm:flex-row items-center gap-6">
+                            <!-- SVG Fixo Responsivo -->
+                            <svg class="shrink-0 w-32 h-32 md:w-[140px] md:h-[140px]" viewBox="0 0 140 140">
+                                <circle cx="70" cy="70" r="50" fill="none" stroke="#F4F6F8" stroke-width="22" />
+                                <circle cx="70" cy="70" r="50" fill="none" stroke="#00A63E" stroke-width="22" stroke-dasharray="131.9 314.16" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" />
+                                <circle cx="70" cy="70" r="50" fill="none" stroke="#3B82F6" stroke-width="22" stroke-dasharray="87.96 314.16" stroke-dashoffset="-131.9" stroke-linecap="butt" transform="rotate(-90 70 70)" />
+                                <circle cx="70" cy="70" r="50" fill="none" stroke="#F59E0B" stroke-width="22" stroke-dasharray="56.55 314.16" stroke-dashoffset="-219.86" stroke-linecap="butt" transform="rotate(-90 70 70)" />
+                                <circle cx="70" cy="70" r="50" fill="none" stroke="#E5E7EB" stroke-width="22" stroke-dasharray="37.7 314.16" stroke-dashoffset="-276.41" stroke-linecap="butt" transform="rotate(-90 70 70)" />
+                                <text x="70" y="65" text-anchor="middle" font-size="20" font-weight="700" fill="#101828" font-family="DM Sans,sans-serif">42%</text>
+                                <text x="70" y="82" text-anchor="middle" font-size="10" fill="#99A1AF" font-family="DM Sans,sans-serif">Calçados</text>
+                            </svg>
+                            <div class="flex flex-col gap-3 w-full sm:w-auto">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#00A63E]"></div>
+                                    <span class="text-[13px] text-slate-500">Calçados</span>
+                                    <span class="text-[13px] font-bold text-slate-900 ml-auto pl-4">42%</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#3B82F6]"></div>
+                                    <span class="text-[13px] text-slate-500">Jaquetas</span>
+                                    <span class="text-[13px] font-bold text-slate-900 ml-auto pl-4">28%</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#F59E0B]"></div>
+                                    <span class="text-[13px] text-slate-500">Botas</span>
+                                    <span class="text-[13px] font-bold text-slate-900 ml-auto pl-4">18%</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-2.5 h-2.5 rounded-[3px] shrink-0 bg-[#E5E7EB]"></div>
+                                    <span class="text-[13px] text-slate-500">Outros</span>
+                                    <span class="text-[13px] font-bold text-slate-900 ml-auto pl-4">12%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- ── Bottom Row ── -->
-                    <div class="grid grid-cols-[1.6fr_1fr] gap-4">
+            <!-- ── 3. Bottom Row: Tabela de Pedidos e Top Produtos (Flex-col no Mobile) ── -->
+            <div class="flex flex-col xl:grid xl:grid-cols-[1.6fr_1fr] gap-4">
 
-                        <!-- Orders Table -->
-                        <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden">
-                            <div class="px-6 pt-5 pb-4 border-b border-[#E5E7EB] flex items-center justify-between">
-                                <div>
-                                    <div class="text-[14.5px] font-bold text-[#101828]">Pedidos Recentes</div>
-                                    <div class="text-[12px] text-[#6A7282] mt-0.5">12 pedidos aguardando processamento
-                                    </div>
-                                </div>
-                                <button
-                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">
-                                    Ver todos →
-                                </button>
+                <!-- Orders Table (Horizontal scroll no container e whitespace-nowrap nos textos) -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden w-full flex flex-col">
+                    <div class="px-4 md:px-6 py-4 md:py-5 border-b border-slate-100 flex items-center justify-between">
+                        <div>
+                            <div class="text-[14.5px] font-bold text-slate-900">Pedidos Recentes</div>
+                            <div class="text-[12px] text-slate-500 mt-0.5">12 pedidos aguardando processamento</div>
+                        </div>
+                        <button class="px-4 py-2 bg-slate-50 rounded-lg text-xs font-semibold border border-slate-200 text-slate-600 hover:border-modamym-green hover:text-modamym-green transition-colors">
+                            Ver todos →
+                        </button>
+                    </div>
+                    <!-- Overflow isolado APENAS para a tabela -->
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+                            <thead class="bg-slate-50/80 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Pedido</th>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Cliente</th>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Produto</th>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Valor</th>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Status</th>
+                                    <th class="px-4 md:px-6 py-3.5 text-[11px] font-bold text-slate-500 tracking-wider uppercase">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <!-- Ana Souza -->
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-4 md:px-6 py-3.5"><span class="font-bold text-slate-900 text-sm">#4821</span></td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-[linear-gradient(135deg,#00A63E,#059669)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">A</div>
+                                            <div>
+                                                <div class="text-[13px] font-semibold text-slate-900">Ana Souza</div>
+                                                <div class="text-[11px] text-slate-500">ana@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5 text-slate-600 text-[13px] max-w-[160px] overflow-hidden text-ellipsis">Parka Feminina Consciência</td>
+                                    <td class="px-4 md:px-6 py-3.5 font-bold text-slate-900 text-[14px]">R$285,60</td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <span class="inline-flex items-center gap-[5px] px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#e8f7ee] text-[#00A63E]">Pago</span>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <button class="px-3 md:px-4 py-1.5 rounded-lg border border-slate-200 bg-white text-[12px] font-semibold text-slate-600 transition hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
+                                    </td>
+                                </tr>
+                                <!-- Carlos Lima -->
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-4 md:px-6 py-3.5"><span class="font-bold text-slate-900 text-sm">#4820</span></td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-[linear-gradient(135deg,#3B82F6,#6366F1)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">C</div>
+                                            <div>
+                                                <div class="text-[13px] font-semibold text-slate-900">Carlos Lima</div>
+                                                <div class="text-[11px] text-slate-500">carlos@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5 text-slate-600 text-[13px]">Bota Beira Rio Napa</td>
+                                    <td class="px-4 md:px-6 py-3.5 font-bold text-slate-900 text-[14px]">R$134,93</td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <span class="inline-flex items-center gap-[5px] px-2.5 py-1 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-500">Enviado</span>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <button class="px-3 md:px-4 py-1.5 rounded-lg border border-slate-200 bg-white text-[12px] font-semibold text-slate-600 transition hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
+                                    </td>
+                                </tr>
+                                <!-- Maria Oliveira -->
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-4 md:px-6 py-3.5"><span class="font-bold text-slate-900 text-sm">#4819</span></td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-[linear-gradient(135deg,#F59E0B,#EF4444)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">M</div>
+                                            <div>
+                                                <div class="text-[13px] font-semibold text-slate-900">Maria Oliveira</div>
+                                                <div class="text-[11px] text-slate-500">maria@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5 text-slate-600 text-[13px]">Sapato Ultraconforto</td>
+                                    <td class="px-4 md:px-6 py-3.5 font-bold text-slate-900 text-[14px]">R$143,92</td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <span class="inline-flex items-center gap-[5px] px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-500">Pendente</span>
+                                    </td>
+                                    <td class="px-4 md:px-6 py-3.5">
+                                        <button class="px-3 md:px-4 py-1.5 rounded-lg border border-slate-200 bg-white text-[12px] font-semibold text-slate-600 transition hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Products List -->
+                <!-- Estética Limpa mantida em todo o painel lateral de info secundária -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden w-full h-fit">
+                    <div class="px-4 md:px-6 py-4 border-b border-slate-100">
+                        <div class="text-[14.5px] font-bold text-slate-900">Top Produtos</div>
+                        <div class="text-[12px] text-slate-500 mt-0.5">Mais vendidos este mês</div>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 flex flex-col divide-y divide-slate-100">
+
+                        <!-- Product 1 -->
+                        <div class="flex items-center gap-3 py-3">
+                            <div class="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0 bg-emerald-50 text-[#00A63E]">1</div>
+                            <div class="w-11 h-11 rounded-lg border border-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                                <img src="https://www.figma.com/api/mcp/asset/424b91ba-63c4-49b3-ad27-0125bfbd78ca" alt="" class="w-10 h-10 object-contain mix-blend-multiply">
                             </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full border-collapse">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="px-4 py-2.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB] first:rounded-tl-lg last:rounded-tr-lg">
-                                                Pedido</th>
-                                            <th
-                                                class="px-4 py-3.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB]">
-                                                Cliente</th>
-                                            <th
-                                                class="px-4 py-3.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB]">
-                                                Produto</th>
-                                            <th
-                                                class="px-4 py-3.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB]">
-                                                Valor</th>
-                                            <th
-                                                class="px-4 py-3.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB]">
-                                                Status</th>
-                                            <th
-                                                class="px-4 py-3.5 text-left text-[11px] font-bold text-[#99A1AF] tracking-[0.7px] uppercase bg-[#F4F6F8] border-b border-[#E5E7EB]">
-                                                Ação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Ana Souza -->
-                                        <tr
-                                            class="border-b border-[#E5E7EB] transition-colors duration-150 hover:bg-[#F4F6F8]">
-                                            <td class="px-4 py-3.5 align-middle"><span
-                                                    class="font-bold text-[#101828] text-[12.5px]">#4821</span></td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <div class="flex items-center gap-2.5">
-                                                    <div
-                                                        class="w-[30px] h-[30px] rounded-full bg-[linear-gradient(135deg,#00A63E,#059669)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
-                                                        A</div>
-                                                    <div>
-                                                        <div class="text-[13px] font-semibold">Ana Souza</div>
-                                                        <div class="text-[11px] text-[#99A1AF]">ana@email.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="px-4 py-3.5 align-middle text-[#6A7282] text-[12.5px] max-w-[160px] whitespace-nowrap overflow-hidden text-ellipsis">
-                                                Parka Feminina Consciência</td>
-                                            <td class="px-4 py-3.5 align-middle font-bold text-[13.5px]">R$285,60</td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <span
-                                                    class="status-dot inline-flex items-center gap-[5px] px-[10px] py-1 rounded-full text-[11px] font-semibold before:bg-[#00A63E] bg-[#e8f7ee] text-[#00A63E]">Pago</span>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle"><button
-                                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
-                                            </td>
-                                        </tr>
-                                        <!-- Carlos Lima -->
-                                        <tr
-                                            class="border-b border-[#E5E7EB] transition-colors duration-150 hover:bg-[#F4F6F8]">
-                                            <td class="px-4 py-3.5 align-middle"><span
-                                                    class="font-bold text-[#101828] text-[12.5px]">#4820</span></td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <div class="flex items-center gap-2.5">
-                                                    <div
-                                                        class="w-[30px] h-[30px] rounded-full bg-[linear-gradient(135deg,#3B82F6,#6366F1)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
-                                                        C</div>
-                                                    <div>
-                                                        <div class="text-[13px] font-semibold">Carlos Lima</div>
-                                                        <div class="text-[11px] text-[#99A1AF]">carlos@email.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle text-[#6A7282] text-[12.5px]">Bota Beira
-                                                Rio
-                                                Napa</td>
-                                            <td class="px-4 py-3.5 align-middle font-bold text-[13.5px]">R$134,93</td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <span
-                                                    class="status-dot inline-flex items-center gap-[5px] px-[10px] py-1 rounded-full text-[11px] font-semibold before:bg-[#3B82F6] bg-[#EFF6FF] text-[#3B82F6]">Enviado</span>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle"><button
-                                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
-                                            </td>
-                                        </tr>
-                                        <!-- Maria Oliveira -->
-                                        <tr
-                                            class="border-b border-[#E5E7EB] transition-colors duration-150 hover:bg-[#F4F6F8]">
-                                            <td class="px-4 py-3.5 align-middle"><span
-                                                    class="font-bold text-[#101828] text-[12.5px]">#4819</span></td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <div class="flex items-center gap-2.5">
-                                                    <div
-                                                        class="w-[30px] h-[30px] rounded-full bg-[linear-gradient(135deg,#F59E0B,#EF4444)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
-                                                        M</div>
-                                                    <div>
-                                                        <div class="text-[13px] font-semibold">Maria Oliveira</div>
-                                                        <div class="text-[11px] text-[#99A1AF]">maria@email.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle text-[#6A7282] text-[12.5px]">Sapato
-                                                Ultraconforto</td>
-                                            <td class="px-4 py-3.5 align-middle font-bold text-[13.5px]">R$143,92</td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <span
-                                                    class="status-dot inline-flex items-center gap-[5px] px-[10px] py-1 rounded-full text-[11px] font-semibold before:bg-[#F59E0B] bg-[#FFFBEB] text-[#F59E0B]">Pendente</span>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle"><button
-                                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
-                                            </td>
-                                        </tr>
-                                        <!-- Pedro Alves -->
-                                        <tr
-                                            class="border-b border-[#E5E7EB] transition-colors duration-150 hover:bg-[#F4F6F8]">
-                                            <td class="px-4 py-3.5 align-middle"><span
-                                                    class="font-bold text-[#101828] text-[12.5px]">#4818</span></td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <div class="flex items-center gap-2.5">
-                                                    <div
-                                                        class="w-[30px] h-[30px] rounded-full bg-[linear-gradient(135deg,#8B5CF6,#EC4899)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
-                                                        P</div>
-                                                    <div>
-                                                        <div class="text-[13px] font-semibold">Pedro Alves</div>
-                                                        <div class="text-[11px] text-[#99A1AF]">pedro@email.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle text-[#6A7282] text-[12.5px]">Sapato
-                                                Bico
-                                                Fino
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle font-bold text-[13.5px]">R$143,92</td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <span
-                                                    class="status-dot inline-flex items-center gap-[5px] px-[10px] py-1 rounded-full text-[11px] font-semibold before:bg-[#00A63E] bg-[#e8f7ee] text-[#00A63E]">Pago</span>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle"><button
-                                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
-                                            </td>
-                                        </tr>
-                                        <!-- Julia Ferreira -->
-                                        <tr class="transition-colors duration-150 hover:bg-[#F4F6F8]">
-                                            <td class="px-4 py-3.5 align-middle"><span
-                                                    class="font-bold text-[#101828] text-[12.5px]">#4817</span></td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <div class="flex items-center gap-2.5">
-                                                    <div
-                                                        class="w-[30px] h-[30px] rounded-full bg-[linear-gradient(135deg,#EF4444,#F97316)] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
-                                                        J</div>
-                                                    <div>
-                                                        <div class="text-[13px] font-semibold">Julia Ferreira</div>
-                                                        <div class="text-[11px] text-[#99A1AF]">julia@email.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle text-[#6A7282] text-[12.5px]">Bota
-                                                Edição
-                                                Premium</td>
-                                            <td class="px-4 py-3.5 align-middle font-bold text-[13.5px]">R$119,76</td>
-                                            <td class="px-4 py-3.5 align-middle">
-                                                <span
-                                                    class="status-dot inline-flex items-center gap-[5px] px-[10px] py-1 rounded-full text-[11px] font-semibold before:bg-[#EF4444] bg-[#FEF2F2] text-[#EF4444]">Cancelado</span>
-                                            </td>
-                                            <td class="px-4 py-3.5 align-middle"><button
-                                                    class="px-3.5 py-1.5 rounded-lg border-[1.5px] border-[#E5E7EB] bg-white text-[12px] font-semibold text-[#6A7282] font-dm cursor-pointer transition-colors duration-200 hover:border-[#00A63E] hover:text-[#00A63E]">Ver</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[13px] font-semibold text-slate-900 truncate">Parka Consciência</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">84 vendas</div>
                             </div>
+                            <div class="text-sm font-bold text-slate-900 shrink-0">R$23.990</div>
                         </div>
 
-                        <!-- Top Products -->
-                        <div class="bg-white rounded-2xl border-[1.5px] border-[#E5E7EB] overflow-hidden">
-                            <div class="px-6 pt-5 pb-4 border-b border-[#E5E7EB]">
-                                <div class="text-[14.5px] font-bold text-[#101828]">Top Produtos</div>
-                                <div class="text-[12px] text-[#6A7282] mt-0.5">Mais vendidos este mês</div>
+                        <!-- Product 2 -->
+                        <div class="flex items-center gap-3 py-3">
+                            <div class="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0 bg-emerald-50 text-[#00A63E]">2</div>
+                            <div class="w-11 h-11 rounded-lg border border-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                                <img src="https://www.figma.com/api/mcp/asset/87d18b6e-693f-47e4-9a06-ec827ae73103" alt="" class="w-10 h-10 object-contain mix-blend-multiply">
                             </div>
-                            <div class="p-6">
-
-                                <!-- Product 1 -->
-                                <div class="flex items-center gap-3 py-3 border-b border-[#E5E7EB]">
-                                    <div
-                                        class="w-6 h-6 rounded-[6px] flex items-center justify-center text-[11px] font-bold shrink-0 bg-[rgba(0,166,62,0.12)] text-[#00A63E]">
-                                        1</div>
-                                    <div
-                                        class="w-11 h-11 rounded-[10px] bg-[#F4F6F8] overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="https://www.figma.com/api/mcp/asset/424b91ba-63c4-49b3-ad27-0125bfbd78ca"
-                                            alt="" class="w-[38px] h-[38px] object-contain mix-blend-multiply">
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div
-                                            class="text-[12.5px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Parka
-                                            Consciência</div>
-                                        <div class="text-[11px] text-[#99A1AF] mt-0.5">84 vendas</div>
-                                        <div class="h-1 bg-[#F4F6F8] rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full bg-[#00A63E] rounded-full" style="width:100%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-[13px] font-bold text-[#101828] shrink-0">R$23.990</div>
-                                </div>
-
-                                <!-- Product 2 -->
-                                <div class="flex items-center gap-3 py-3 border-b border-[#E5E7EB]">
-                                    <div
-                                        class="w-6 h-6 rounded-[6px] flex items-center justify-center text-[11px] font-bold shrink-0 bg-[rgba(0,166,62,0.12)] text-[#00A63E]">
-                                        2</div>
-                                    <div
-                                        class="w-11 h-11 rounded-[10px] bg-[#F4F6F8] overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="https://www.figma.com/api/mcp/asset/87d18b6e-693f-47e4-9a06-ec827ae73103"
-                                            alt="" class="w-[38px] h-[38px] object-contain mix-blend-multiply">
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div
-                                            class="text-[12.5px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Bota Beira Rio
-                                            Napa</div>
-                                        <div class="text-[11px] text-[#99A1AF] mt-0.5">67 vendas</div>
-                                        <div class="h-1 bg-[#F4F6F8] rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full bg-[#00A63E] rounded-full" style="width:80%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-[13px] font-bold text-[#101828] shrink-0">R$9.040</div>
-                                </div>
-
-                                <!-- Product 3 -->
-                                <div class="flex items-center gap-3 py-3 border-b border-[#E5E7EB]">
-                                    <div
-                                        class="w-6 h-6 rounded-[6px] flex items-center justify-center text-[11px] font-bold shrink-0 bg-[#F4F6F8] text-[#6A7282]">
-                                        3</div>
-                                    <div
-                                        class="w-11 h-11 rounded-[10px] bg-[#F4F6F8] overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="https://www.figma.com/api/mcp/asset/1ebec4e8-c7af-4b70-96f0-6b10a474ad55"
-                                            alt="" class="w-[38px] h-[38px] object-contain mix-blend-multiply">
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div
-                                            class="text-[12.5px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Sapato Salto
-                                            Baixo</div>
-                                        <div class="text-[11px] text-[#99A1AF] mt-0.5">52 vendas</div>
-                                        <div class="h-1 bg-[#F4F6F8] rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full bg-[#00A63E] rounded-full" style="width:62%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-[13px] font-bold text-[#101828] shrink-0">R$7.484</div>
-                                </div>
-
-                                <!-- Product 4 -->
-                                <div class="flex items-center gap-3 py-3 border-b border-[#E5E7EB]">
-                                    <div
-                                        class="w-6 h-6 rounded-[6px] flex items-center justify-center text-[11px] font-bold shrink-0 bg-[#F4F6F8] text-[#6A7282]">
-                                        4</div>
-                                    <div
-                                        class="w-11 h-11 rounded-[10px] bg-[#F4F6F8] overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="https://www.figma.com/api/mcp/asset/41175501-a258-4311-b657-ded0ef37824f"
-                                            alt="" class="w-[38px] h-[38px] object-contain mix-blend-multiply">
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div
-                                            class="text-[12.5px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Sapato
-                                            Ultraconforto</div>
-                                        <div class="text-[11px] text-[#99A1AF] mt-0.5">48 vendas</div>
-                                        <div class="h-1 bg-[#F4F6F8] rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full bg-[#00A63E] rounded-full" style="width:57%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-[13px] font-bold text-[#101828] shrink-0">R$6.908</div>
-                                </div>
-
-                                <!-- Product 5 -->
-                                <div class="flex items-center gap-3 py-3">
-                                    <div
-                                        class="w-6 h-6 rounded-[6px] flex items-center justify-center text-[11px] font-bold shrink-0 bg-[#F4F6F8] text-[#6A7282]">
-                                        5</div>
-                                    <div
-                                        class="w-11 h-11 rounded-[10px] bg-[#F4F6F8] overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="https://www.figma.com/api/mcp/asset/dab1087d-eff8-45e5-a92c-c9bf665c73d8"
-                                            alt="" class="w-[38px] h-[38px] object-contain mix-blend-multiply">
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div
-                                            class="text-[12.5px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Sapato Edição
-                                            Premium</div>
-                                        <div class="text-[11px] text-[#99A1AF] mt-0.5">39 vendas</div>
-                                        <div class="h-1 bg-[#F4F6F8] rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full bg-[#00A63E] rounded-full" style="width:46%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-[13px] font-bold text-[#101828] shrink-0">R$4.671</div>
-                                </div>
-
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[13px] font-semibold text-slate-900 truncate">Bota Beira Rio Napa</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">67 vendas</div>
                             </div>
+                            <div class="text-sm font-bold text-slate-900 shrink-0">R$9.040</div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="flex items-center gap-3 py-3">
+                            <div class="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0 bg-slate-50 text-slate-500">3</div>
+                            <div class="w-11 h-11 rounded-lg border border-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                                <img src="https://www.figma.com/api/mcp/asset/1ebec4e8-c7af-4b70-96f0-6b10a474ad55" alt="" class="w-10 h-10 object-contain mix-blend-multiply">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[13px] font-semibold text-slate-900 truncate">Sapato Salto Baixo</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">52 vendas</div>
+                            </div>
+                            <div class="text-sm font-bold text-slate-900 shrink-0">R$7.484</div>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="flex items-center gap-3 py-3">
+                            <div class="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0 bg-slate-50 text-slate-500">4</div>
+                            <div class="w-11 h-11 rounded-lg border border-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                                <img src="https://www.figma.com/api/mcp/asset/41175501-a258-4311-b657-ded0ef37824f" alt="" class="w-10 h-10 object-contain mix-blend-multiply">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[13px] font-semibold text-slate-900 truncate">Sapato Ultraconforto</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">48 vendas</div>
+                            </div>
+                            <div class="text-sm font-bold text-slate-900 shrink-0">R$6.908</div>
                         </div>
 
                     </div>
                 </div>
+
+            </div>
         </div>
+    </main>
 
 </body>
 
