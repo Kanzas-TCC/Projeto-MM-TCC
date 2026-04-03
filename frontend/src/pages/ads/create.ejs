@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODAMYM — Criar Anúncio ML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../css/tailwind-compiled.css">
+    <style>
+        .spin {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2.5px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all .3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .pcard {
+            transition: border-color .15s, background .15s;
+            cursor: pointer;
+        }
+
+        .pcard:hover {
+            border-color: #00A63E;
+            background: #f0fdf4;
+        }
+
+        .pcard.selected {
+            border-color: #00A63E;
+            background: #f0fdf4;
+            box-shadow: 0 0 0 3px rgba(0, 166, 62, .12);
+        }
+    </style>
+</head>
+
+<body class="font-dm bg-slate-50 text-slate-900 flex min-h-screen">
+
+    <%- include('../../components/sidebar.ejs') -%>
+
+        <main class="md:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300 w-full overflow-hidden">
+
+            <!-- Top Bar -->
+            <%- include('../../components/navbar.ejs') -%>
+
+                <!-- Content -->
+                <div class="px-4 py-6 md:p-8 pb-24 md:pb-8 flex-1 w-full mx-auto max-w-4xl">
+
+                    <!-- Page Header -->
+                    <header class="mb-7">
+                        <div class="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                            <a href="/ads" class="hover:text-[#00A63E] transition-colors font-medium">Anúncios</a>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            <span class="text-slate-700 font-medium">Criar Anúncio</span>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Cadastrar Anúncio no Mercado Livre
+                        </h1>
+                        <p class="text-sm text-slate-500 mt-1">Vincule um produto do estoque e publique via API do ML em
+                            3 etapas.</p>
+                    </header>
+
+                    <!-- STEPPER -->
+                    <div
+                        class="flex items-center bg-white border border-slate-100 shadow-sm rounded-2xl px-5 py-4 mb-6">
+                        <div class="flex items-center gap-2.5 flex-1">
+                            <div id="s1n"
+                                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-[#00A63E] text-white shadow-[0_0_0_4px_rgba(0,166,62,.15)] transition-all">
+                                1</div>
+                            <div>
+                                <div id="s1l" class="text-[13px] font-bold text-slate-900">Selecionar</div>
+                                <div class="text-[10px] text-slate-400">Produto ou família</div>
+                            </div>
+                        </div>
+                        <div id="c1" class="h-0.5 w-12 bg-slate-200 mx-3 transition-all duration-300 shrink-0"></div>
+                        <div class="flex items-center gap-2.5 flex-1">
+                            <div id="s2n"
+                                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-slate-100 text-slate-400 border-2 border-slate-200 transition-all">
+                                2</div>
+                            <div>
+                                <div id="s2l" class="text-[13px] font-bold text-slate-400 transition-all">Configurar
+                                </div>
+                                <div class="text-[10px] text-slate-400">Título, preço e tipo</div>
+                            </div>
+                        </div>
+                        <div id="c2" class="h-0.5 w-12 bg-slate-200 mx-3 transition-all duration-300 shrink-0"></div>
+                        <div class="flex items-center gap-2.5 flex-1">
+                            <div id="s3n"
+                                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-slate-100 text-slate-400 border-2 border-slate-200 transition-all">
+                                3</div>
+                            <div>
+                                <div id="s3l" class="text-[13px] font-bold text-slate-400 transition-all">Publicar</div>
+                                <div class="text-[10px] text-slate-400">Revisão final</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─────────── ETAPA 1 ─────────── -->
+                    <div id="etapa1">
+                        <div
+                            class="flex items-start gap-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl px-5 py-3.5 mb-5 text-[12.5px]">
+                            <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Produtos com variações (cor, tamanho) devem ser anunciados como
+                                <strong>família</strong> — aparecem como único anúncio no ML com seleção de variação
+                                pelo comprador.</span>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-4">
+                            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-bold text-slate-900">🔍 Selecionar Produto ou Família</div>
+                                    <div class="text-[11px] text-slate-400 mt-0.5">Escolha o item que deseja anunciar
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                                    <div class="relative flex-1">
+                                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                        <input id="srch" type="text" placeholder="Buscar por nome, SKU ou EAN..."
+                                            oninput="doFilter()"
+                                            class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00A63E]/20 focus:border-[#00A63E] transition-all">
+                                    </div>
+                                    <div class="inline-flex bg-slate-100 rounded-lg p-1 shrink-0">
+                                        <button id="f-all" onclick="setFT('all')"
+                                            class="px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-slate-900 shadow-sm transition-all">Todos</button>
+                                        <button id="f-ind" onclick="setFT('individual')"
+                                            class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-500 hover:text-slate-700 transition-all">Individuais</button>
+                                        <button id="f-fam" onclick="setFT('family')"
+                                            class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-500 hover:text-slate-700 transition-all">Famílias</button>
+                                    </div>
+                                </div>
+                                <div id="plist" class="flex flex-col gap-2 max-h-[400px] overflow-y-auto pr-0.5"></div>
+                                <div id="empty" class="hidden text-center py-10 text-slate-400">
+                                    <div class="text-3xl mb-2">🔎</div>
+                                    <p class="text-sm font-medium">Nenhum resultado encontrado</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alerta: produto tem família -->
+                        <div id="al-family"
+                            class="hidden items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 mb-4">
+                            <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <div class="flex-1">
+                                <div class="text-[13px] font-bold text-amber-800 mb-0.5">Este produto pertence a uma
+                                    família</div>
+                                <div id="al-family-msg" class="text-[12px] text-amber-700 leading-relaxed mb-3">—</div>
+                                <div class="flex flex-wrap gap-2">
+                                    <button id="btn-sw-fam" onclick="switchToFamily()"
+                                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-bold hover:bg-amber-600 transition-all">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        Anunciar família completa
+                                    </button>
+                                    <button onclick="document.getElementById('al-family').classList.add('hidden')"
+                                        class="px-3.5 py-1.5 bg-white border border-amber-300 text-amber-700 rounded-lg text-xs font-semibold hover:bg-amber-50 transition-all">Anunciar
+                                        só este produto</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alerta: família já tem anúncio no ML -->
+                        <div id="al-ml"
+                            class="hidden items-start gap-3 bg-blue-50 border border-blue-200 rounded-xl px-5 py-4 mb-4">
+                            <svg class="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="flex-1">
+                                <div class="text-[13px] font-bold text-blue-800 mb-0.5">Já existe anúncio ativo no ML
+                                </div>
+                                <div id="al-ml-msg" class="text-[12px] text-blue-700 leading-relaxed mb-3">—</div>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="showToast('Variação adicionada ao anúncio existente.','success')"
+                                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-all">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Adicionar variação ao anúncio
+                                    </button>
+                                    <button onclick="document.getElementById('al-ml').classList.add('hidden')"
+                                        class="px-3.5 py-1.5 bg-white border border-blue-300 text-blue-700 rounded-lg text-xs font-semibold hover:bg-blue-50 transition-all">Criar
+                                        novo anúncio</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button id="btn-next1" onclick="goStep2()" disabled
+                                class="inline-flex items-center gap-2 px-6 py-2.5 bg-[#00A63E] text-white rounded-xl text-sm font-bold transition-all hover:bg-[#009435] active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 shadow-[0_4px_14px_rgba(0,166,62,.25)]">
+                                Configurar Anúncio
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div><!-- /etapa1 -->
+
+                    <!-- ─────────── ETAPA 2 ─────────── -->
+                    <div id="etapa2" class="hidden">
+
+                        <!-- Selecionado -->
+                        <div
+                            class="flex items-center gap-3 bg-white border border-slate-100 shadow-sm rounded-xl px-4 py-3 mb-5">
+                            <div id="sel-thumb"
+                                class="w-10 h-10 rounded-lg bg-slate-100 border border-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div id="sel-name" class="text-[13px] font-bold text-slate-900 truncate">—</div>
+                                <div id="sel-meta" class="text-[11px] text-slate-400 mt-0.5">—</div>
+                            </div>
+                            <button onclick="goStep1()"
+                                class="text-xs font-semibold text-[#00A63E] hover:underline shrink-0">Trocar</button>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-5">
+                            <div class="px-5 py-4 border-b border-slate-100">
+                                <div class="text-sm font-bold text-slate-900">📝 Dados do Anúncio</div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">Preencha as informações que aparecerão no
+                                    Mercado Livre</div>
+                            </div>
+                            <div class="p-6 flex flex-col gap-5">
+
+                                <!-- Título -->
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1.5" for="ad-title">Título
+                                        do Anúncio <span class="text-red-400">*</span></label>
+                                    <input id="ad-title" type="text" maxlength="60" oninput="upCC()"
+                                        placeholder="Ex: Sapato Beira Rio Salto Baixo Feminino Bico Fino"
+                                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#00A63E]/20 focus:border-[#00A63E] transition-all placeholder:text-slate-400">
+                                    <div class="flex justify-between mt-1">
+                                        <p class="text-[11px] text-slate-400">Máximo 60 caracteres — seja específico
+                                            para melhorar o posicionamento.</p><span id="cc"
+                                            class="text-[11px] text-slate-400 shrink-0">0/60</span>
+                                    </div>
+                                </div>
+
+                                <!-- Descrição -->
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1.5" for="ad-desc">Descrição
+                                        Detalhada</label>
+                                    <textarea id="ad-desc" rows="4"
+                                        placeholder="Descreva o produto com detalhes: material, dimensões, características..."
+                                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#00A63E]/20 focus:border-[#00A63E] transition-all placeholder:text-slate-400 resize-none"></textarea>
+                                    <p class="text-[11px] text-slate-400 mt-1">Uma boa descrição aumenta a taxa de
+                                        conversão do anúncio.</p>
+                                </div>
+
+                                <!-- Preço + Qtd -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1.5"
+                                            for="ad-price">Valor de Venda (R$) <span
+                                                class="text-red-400">*</span></label>
+                                        <div class="relative">
+                                            <span
+                                                class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-medium pointer-events-none">R$</span>
+                                            <input id="ad-price" type="number" step="0.01" min="0" placeholder="0,00"
+                                                oninput="upMargin()"
+                                                class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#00A63E]/20 focus:border-[#00A63E] transition-all">
+                                        </div>
+                                        <div id="margin-line" class="hidden mt-1 text-[11px] text-slate-400">Custo:
+                                            <span id="cost-val" class="font-semibold text-slate-600">—</span> · Margem:
+                                            <span id="margin-val" class="font-semibold">—</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1.5"
+                                            for="ad-qty">Quantidade a Anunciar <span
+                                                class="text-red-400">*</span></label>
+                                        <input id="ad-qty" type="number" min="1" placeholder="Ex: 50"
+                                            class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#00A63E]/20 focus:border-[#00A63E] transition-all">
+                                        <p class="text-[11px] text-slate-400 mt-1">Estoque disponível: <span
+                                                id="stock-val" class="font-semibold text-slate-600">—</span> un.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Tipo de anúncio -->
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-2">Tipo de Anúncio <span
+                                            class="text-red-400">*</span></label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <label
+                                            class="flex gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-[#00A63E]/40 hover:bg-green-50/50 transition-all has-[:checked]:border-[#00A63E] has-[:checked]:bg-green-50">
+                                            <input type="radio" name="adtype" value="classic"
+                                                class="mt-0.5 shrink-0 accent-[#00A63E]" checked>
+                                            <div>
+                                                <div class="text-[13px] font-bold text-slate-900">Clássico</div>
+                                                <div class="text-[11.5px] text-slate-500 mt-0.5 leading-relaxed">
+                                                    Comissão de <strong class="text-slate-700">11%</strong> sobre a
+                                                    venda. Posicionamento padrão, ideal para iniciar.</div>
+                                            </div>
+                                        </label>
+                                        <label
+                                            class="flex gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-[#00A63E]/40 hover:bg-green-50/50 transition-all has-[:checked]:border-[#00A63E] has-[:checked]:bg-green-50">
+                                            <input type="radio" name="adtype" value="premium"
+                                                class="mt-0.5 shrink-0 accent-[#00A63E]">
+                                            <div>
+                                                <div class="flex items-center gap-2"><span
+                                                        class="text-[13px] font-bold text-slate-900">Premium</span><span
+                                                        class="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded">Recomendado</span>
+                                                </div>
+                                                <div class="text-[11.5px] text-slate-500 mt-0.5 leading-relaxed">
+                                                    Comissão de <strong class="text-slate-700">16%</strong> sobre a
+                                                    venda. Melhor posicionamento e visibilidade.</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button onclick="goStep1()"
+                                class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-slate-600 border border-slate-200 rounded-xl text-sm font-semibold hover:border-slate-400 transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M19 12H5m7 7l-7-7 7-7" />
+                                </svg> Voltar
+                            </button>
+                            <button onclick="goStep3()"
+                                class="inline-flex items-center gap-2 px-6 py-2.5 bg-[#00A63E] text-white rounded-xl text-sm font-bold hover:bg-[#009435] active:scale-[.98] transition-all shadow-[0_4px_14px_rgba(0,166,62,.25)]">
+                                Revisar Anúncio <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div><!-- /etapa2 -->
+
+                    <!-- ─────────── ETAPA 3 ─────────── -->
+                    <div id="etapa3" class="hidden">
+
+                        <div
+                            class="flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl px-5 py-3.5 mb-5 text-[12.5px]">
+                            <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Ao confirmar, o anúncio será <strong>criado na sua conta do ML via API</strong>.
+                                Verifique todos os dados antes de publicar.</span>
+                        </div>
+
+                        <!-- Preview Card -->
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-5">
+                            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-bold text-slate-900">👁️ Prévia do Anúncio</div>
+                                    <div class="text-[11px] text-slate-400 mt-0.5">Como aparecerá no Mercado Livre</div>
+                                </div>
+                                <span id="prev-badge"
+                                    class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500">—</span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-col sm:flex-row gap-5 items-start">
+                                    <div id="prev-img"
+                                        class="w-full sm:w-36 h-36 rounded-xl bg-slate-50 border border-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
+                                        <svg class="w-10 h-10 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 id="prev-title"
+                                            class="text-[15px] font-semibold text-slate-900 leading-snug mb-2">—</h3>
+                                        <div id="prev-price" class="text-2xl font-black text-slate-900 mb-3">—</div>
+                                        <div class="flex flex-wrap gap-2 mb-3">
+                                            <span
+                                                class="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-lg text-[11px] text-slate-500"><svg
+                                                    class="w-3 h-3 text-[#00A63E]" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                                </svg>Frete grátis (simulado)</span>
+                                            <span id="prev-qty-badge"
+                                                class="px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-lg text-[11px] text-slate-500">—
+                                                un. disponíveis</span>
+                                        </div>
+                                        <p id="prev-desc"
+                                            class="text-[12px] text-slate-400 leading-relaxed line-clamp-3">—</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Análise Financeira -->
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-5">
+                            <div class="px-5 py-4 border-b border-slate-100">
+                                <div class="text-sm font-bold text-slate-900">💰 Análise Financeira Estimada</div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">Por unidade vendida, após comissão do ML
+                                </div>
+                            </div>
+                            <div class="p-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                    <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">
+                                        Preço Venda</div>
+                                    <div id="fa-price" class="text-lg font-black text-slate-900">—</div>
+                                </div>
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                    <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">
+                                        Custo Produto</div>
+                                    <div id="fa-cost" class="text-lg font-bold text-slate-600">—</div>
+                                </div>
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                    <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">
+                                        Tarifa ML</div>
+                                    <div id="fa-fee" class="text-lg font-bold text-slate-600">—</div>
+                                </div>
+                                <div class="bg-green-50 rounded-xl p-4 border border-green-100">
+                                    <div class="text-[10px] text-[#00A63E] font-semibold uppercase tracking-wider mb-1">
+                                        Margem Líquida</div>
+                                    <div id="fa-margin" class="text-lg font-black text-[#00A63E]">—</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button onclick="goStep2()"
+                                class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white text-slate-600 border border-slate-200 rounded-xl text-sm font-semibold hover:border-slate-400 transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M19 12H5m7 7l-7-7 7-7" />
+                                </svg> Voltar e Editar
+                            </button>
+                            <button id="btn-pub" onclick="publicar()"
+                                class="inline-flex items-center gap-2 px-7 py-3 bg-[#00A63E] text-white rounded-xl text-[14px] font-bold hover:bg-[#009435] active:scale-[.98] transition-all shadow-[0_4px_16px_rgba(0,166,62,.3)] hover:shadow-[0_6px_20px_rgba(0,166,62,.4)]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                Publicar no Mercado Livre
+                            </button>
+                        </div>
+                    </div><!-- /etapa3 -->
+
+                    <!-- ─────────── ETAPA 4 — SUCESSO ─────────── -->
+                    <div id="etapa4" class="hidden">
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                            <div class="text-center px-8 py-16">
+                                <div
+                                    class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-5">
+                                    <svg class="w-10 h-10 text-[#00A63E]" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div class="text-[22px] font-bold text-slate-900 mb-2">Anúncio publicado com sucesso!
+                                </div>
+                                <p id="ok-desc" class="text-sm text-slate-500 max-w-md mx-auto mb-4 leading-relaxed">—
+                                </p>
+                                <div
+                                    class="inline-flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-4 py-2 mb-8">
+                                    <span class="text-[11px] text-slate-400 font-medium">ID do anúncio:</span>
+                                    <span id="ok-id" class="font-mono text-[13px] font-bold text-slate-700">—</span>
+                                </div>
+                                <div class="flex gap-3 justify-center flex-wrap">
+                                    <button onclick="resetAll()"
+                                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00A63E] text-white rounded-xl text-sm font-bold hover:bg-[#009435] transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Criar Novo Anúncio
+                                    </button>
+                                    <a href="/ads"
+                                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-semibold hover:border-slate-400 transition-all">
+                                        Ver Todos os Anúncios <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                d="M5 12h14m-7-7l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /etapa4 -->
+
+                </div><!-- /content -->
+        </main>
+
+        <div id="toast-wrap" class="fixed bottom-7 right-7 flex flex-col gap-2.5 z-[200]"></div>
+
+        <script>
+            /* ─── MOCK DATA ─── */
+            const products = [
+                { id: 1, type: 'individual', name: 'Sapato Beira Rio Salto Baixo Feminino', ean: '7891234560001', sku: 'SAP-BR-01', cat: 'Calçados', stock: 124, cost: 89.90, img: 'https://www.figma.com/api/mcp/asset/87d18b6e-693f-47e4-9a06-ec827ae73103', famId: null, mlId: null },
+                { id: 2, type: 'individual', name: 'Parka Feminina Consciência Premium', ean: '7891234560002', sku: 'PK-FEM-L', cat: 'Jaquetas', stock: 38, cost: 115.00, img: 'https://www.figma.com/api/mcp/asset/424b91ba-63c4-49b3-ad27-0125bfbd78ca', famId: 'FAM-001', mlId: null },
+                { id: 3, type: 'individual', name: 'Bota Beira Rio Luxo Napa Elegante', ean: '7891234560003', sku: 'BOT-BR-NP', cat: 'Calçados', stock: 0, cost: 120.40, img: 'https://www.figma.com/api/mcp/asset/1ebec4e8-c7af-4b70-96f0-6b10a474ad55', famId: null, mlId: 'MLB429713695' },
+                { id: 4, type: 'individual', name: 'Sapato Feminino Ultraconforto Napa Suprema', ean: '7891234560004', sku: 'SAP-UC-NS', cat: 'Calçados', stock: 67, cost: 92.15, img: 'https://www.figma.com/api/mcp/asset/41175501-a258-4311-b657-ded0ef37824f', famId: null, mlId: null },
+                { id: 5, type: 'family', name: 'Família Parka Consciência (P, M, G, GG)', ean: '—', sku: 'FAM-001', cat: 'Jaquetas', stock: 85, cost: 115.00, img: 'https://www.figma.com/api/mcp/asset/424b91ba-63c4-49b3-ad27-0125bfbd78ca', famId: 'FAM-001', mlId: 'MLB112233445', vars: ['P (18 un.)', 'M (25 un.)', 'G (27 un.)', 'GG (15 un.)'] },
+                { id: 6, type: 'family', name: 'Família Sapato Beira Rio (35–40)', ean: '—', sku: 'FAM-002', cat: 'Calçados', stock: 312, cost: 89.90, img: 'https://www.figma.com/api/mcp/asset/87d18b6e-693f-47e4-9a06-ec827ae73103', famId: 'FAM-002', mlId: null, vars: ['Nº35 (52)', 'Nº36 (67)', 'Nº37 (71)', 'Nº38 (55)', 'Nº39 (42)', 'Nº40 (25)'] },
+            ];
+
+            let sel = null, ft = 'all';
+
+            /* ─── RENDER ─── */
+            function render(list) {
+                const el = document.getElementById('plist');
+                const empty = document.getElementById('empty');
+                el.innerHTML = '';
+                if (!list.length) { empty.classList.remove('hidden'); return; }
+                empty.classList.add('hidden');
+                list.forEach(p => {
+                    const isSel = sel && sel.id === p.id;
+                    const noStk = p.stock === 0;
+                    let badges = '';
+                    if (p.type === 'family') badges += `<span class="px-2 py-0.5 bg-purple-50 text-purple-600 text-[10px] font-bold rounded-full border border-purple-100">Família</span>`;
+                    if (p.mlId) badges += `<span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-100">ML: ${p.mlId}</span>`;
+                    if (noStk) badges += `<span class="px-2 py-0.5 bg-red-50 text-red-500 text-[10px] font-bold rounded-full border border-red-100">Sem estoque</span>`;
+                    if (p.famId && p.type !== 'family') badges += `<span class="px-2 py-0.5 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full border border-amber-100">Tem família</span>`;
+                    const vars = p.vars ? `<div class="flex flex-wrap gap-1.5 mt-2">${p.vars.map(v => `<span class="px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[10px] text-slate-500">${v}</span>`).join('')}</div>` : '';
+                    const check = isSel ? `<svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>` : '';
+                    const div = document.createElement('div');
+                    div.className = `pcard flex items-start gap-3 p-3.5 rounded-xl border-2 ${isSel ? 'selected' : 'border-slate-100 bg-white'}`;
+                    div.onclick = () => pick(p.id);
+                    div.innerHTML = `
+                <div class="w-11 h-11 rounded-lg bg-slate-100 border border-slate-100 shrink-0 overflow-hidden"><img src="${p.img}" class="w-full h-full object-cover mix-blend-multiply"></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex-1 min-w-0"><p class="text-[13px] font-semibold text-slate-900 leading-snug">${p.name}</p><p class="text-[11px] text-slate-400 mt-0.5">${p.cat} · SKU: ${p.sku}${p.ean !== '—' ? ' · EAN: ' + p.ean : ''}</p></div>
+                        <div class="text-right shrink-0"><p class="text-[13px] font-bold text-slate-900">R$ ${p.cost.toFixed(2).replace('.', ',')}</p><p class="text-[11px] ${noStk ? 'text-red-500 font-semibold' : 'text-slate-400'}">${noStk ? 'Sem estoque' : p.stock + ' un.'}</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mt-2">${badges}</div>${vars}
+                </div>
+                <div class="w-5 h-5 rounded-full border-2 ${isSel ? 'border-[#00A63E] bg-[#00A63E]' : 'border-slate-200'} flex items-center justify-center mt-0.5 shrink-0 transition-all">${check}</div>`;
+                    el.appendChild(div);
+                });
+            }
+
+            function doFilter() {
+                const q = document.getElementById('srch').value.toLowerCase();
+                render(products.filter(p => {
+                    const mt = ft === 'all' || p.type === ft || (ft === 'individual' && p.type === 'individual') || (ft === 'family' && p.type === 'family');
+                    const mq = !q || p.name.toLowerCase().includes(q) || p.ean.includes(q) || p.sku.toLowerCase().includes(q);
+                    return mt && mq;
+                }));
+            }
+
+            function setFT(t) {
+                ft = t;
+                ['all', 'individual', 'family'].forEach(x => {
+                    const b = document.getElementById('f-' + x.replace('individual', 'ind').replace('family', 'fam'));
+                    b.className = x === t ? 'px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-slate-900 shadow-sm transition-all' : 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-500 hover:text-slate-700 transition-all';
+                });
+                doFilter();
+            }
+
+            function fmt(n) { return 'R$ ' + n.toFixed(2).replace('.', ','); }
+
+            /* ─── SELECT ─── */
+            function pick(id) {
+                sel = products.find(p => p.id === id);
+                doFilter();
+                document.getElementById('btn-next1').disabled = false;
+                const af = document.getElementById('al-family');
+                const am = document.getElementById('al-ml');
+                af.classList.add('hidden'); am.classList.add('hidden');
+                if (sel.type === 'individual' && sel.famId) {
+                    const fam = products.find(p => p.famId === sel.famId && p.type === 'family');
+                    document.getElementById('al-family-msg').textContent = `Este produto pertence a "${fam ? fam.name : 'uma família'}". Anunciar a família agrupa as variações em um único anúncio no ML, melhorando a experiência do comprador e o posicionamento.`;
+                    document.getElementById('btn-sw-fam').dataset.fid = sel.famId;
+                    af.classList.remove('hidden'); af.style.display = 'flex';
+                }
+                if (sel.mlId) {
+                    document.getElementById('al-ml-msg').textContent = `O anúncio ${sel.mlId} já está ativo no ML. Você pode adicionar este produto como variação ou criar um novo anúncio independente.`;
+                    am.classList.remove('hidden'); am.style.display = 'flex';
+                }
+            }
+
+            function switchToFamily() {
+                const fid = document.getElementById('btn-sw-fam').dataset.fid;
+                const fam = products.find(p => p.famId === fid && p.type === 'family');
+                if (fam) pick(fam.id);
+            }
+
+            /* ─── STEP NAV ─── */
+            function setStep(n) {
+                [1, 2, 3, 4].forEach(i => document.getElementById('etapa' + i).classList.toggle('hidden', i !== n));
+                [1, 2, 3].forEach(i => {
+                    const num = document.getElementById('s' + i + 'n');
+                    const lbl = document.getElementById('s' + i + 'l');
+                    if (i < n) {
+                        num.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-[#00A63E] text-white transition-all';
+                        num.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>';
+                        lbl.className = 'text-[13px] font-bold text-slate-900 transition-all';
+                    } else if (i === n) {
+                        num.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-[#00A63E] text-white shadow-[0_0_0_4px_rgba(0,166,62,.15)] transition-all';
+                        num.textContent = i;
+                        lbl.className = 'text-[13px] font-bold text-slate-900 transition-all';
+                    } else {
+                        num.className = 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-slate-100 text-slate-400 border-2 border-slate-200 transition-all';
+                        num.textContent = i;
+                        lbl.className = 'text-[13px] font-bold text-slate-400 transition-all';
+                    }
+                });
+                document.getElementById('c1').className = 'h-0.5 w-12 mx-3 transition-all duration-300 shrink-0 ' + (n > 1 ? 'bg-[#00A63E]' : 'bg-slate-200');
+                document.getElementById('c2').className = 'h-0.5 w-12 mx-3 transition-all duration-300 shrink-0 ' + (n > 2 ? 'bg-[#00A63E]' : 'bg-slate-200');
+            }
+
+            function goStep1() { setStep(1); }
+
+            function goStep2() {
+                if (!sel) return;
+                document.getElementById('sel-name').textContent = sel.name;
+                document.getElementById('sel-meta').textContent = `${sel.type === 'family' ? 'Família' : 'Individual'} · ${sel.cat} · ${sel.stock} un. em estoque`;
+                document.getElementById('sel-thumb').innerHTML = `<img src="${sel.img}" class="w-full h-full object-cover mix-blend-multiply">`;
+                document.getElementById('stock-val').textContent = sel.stock;
+                document.getElementById('cost-val').textContent = fmt(sel.cost);
+                document.getElementById('margin-line').classList.remove('hidden');
+                if (!document.getElementById('ad-title').value) {
+                    document.getElementById('ad-title').value = sel.name.slice(0, 60);
+                    upCC();
+                }
+                setStep(2);
+            }
+
+            function goStep3() {
+                const title = document.getElementById('ad-title').value.trim();
+                const price = parseFloat(document.getElementById('ad-price').value);
+                const qty = parseInt(document.getElementById('ad-qty').value);
+                if (!title) { showToast('Informe o título do anúncio.', 'error'); return; }
+                if (!price || price <= 0) { showToast('Informe um valor de venda válido.', 'error'); return; }
+                if (!qty || qty <= 0) { showToast('Informe a quantidade a anunciar.', 'error'); return; }
+                const type = document.querySelector('input[name="adtype"]:checked').value;
+                const feeR = type === 'premium' ? 0.16 : 0.11;
+                const fee = price * feeR;
+                const margin = price - sel.cost - fee;
+                const mPct = ((margin / price) * 100).toFixed(1);
+                document.getElementById('prev-title').textContent = title;
+                document.getElementById('prev-price').textContent = fmt(price);
+                document.getElementById('prev-desc').textContent = document.getElementById('ad-desc').value || '(sem descrição)';
+                document.getElementById('prev-qty-badge').textContent = qty + ' un. disponíveis';
+                document.getElementById('prev-badge').textContent = type === 'premium' ? '⭐ Premium' : 'Clássico';
+                document.getElementById('prev-badge').className = `px-2.5 py-1 rounded-full text-[11px] font-bold ${type === 'premium' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'}`;
+                document.getElementById('prev-img').innerHTML = `<img src="${sel.img}" class="w-full h-full object-cover mix-blend-multiply">`;
+                document.getElementById('fa-price').textContent = fmt(price);
+                document.getElementById('fa-cost').textContent = fmt(sel.cost);
+                document.getElementById('fa-fee').textContent = fmt(fee) + ` (${(feeR * 100).toFixed(0)}%)`;
+                document.getElementById('fa-margin').textContent = fmt(margin) + ` (${mPct}%)`;
+                document.getElementById('fa-margin').className = `text-lg font-black ${margin > 0 ? 'text-[#00A63E]' : 'text-red-500'}`;
+                document.getElementById('margin-val').textContent = fmt(margin) + ` (${mPct}%)`;
+                document.getElementById('margin-val').className = `font-semibold ${margin > 0 ? 'text-[#00A63E]' : 'text-red-500'}`;
+                setStep(3);
+            }
+
+            function goStep2fromStep3() { setStep(2); }
+
+            /* ─── PUBLISH ─── */
+            function publicar() {
+                const btn = document.getElementById('btn-pub');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spin"></span> Publicando...';
+                showToast('Enviando anúncio para o Mercado Livre…', 'loading');
+                setTimeout(() => {
+                    const mlId = 'MLB' + Math.floor(Math.random() * 900000000 + 100000000);
+                    document.getElementById('ok-id').textContent = mlId;
+                    document.getElementById('ok-desc').textContent = `"${document.getElementById('ad-title').value}" foi criado com sucesso na sua conta do Mercado Livre.`;
+                    setStep(4);
+                    showToast('Anúncio publicado com sucesso!', 'success');
+                }, 2200);
+            }
+
+            function resetAll() {
+                sel = null; ft = 'all';
+                document.getElementById('ad-title').value = '';
+                document.getElementById('ad-desc').value = '';
+                document.getElementById('ad-price').value = '';
+                document.getElementById('ad-qty').value = '';
+                document.getElementById('btn-next1').disabled = true;
+                document.getElementById('btn-pub').disabled = false;
+                document.getElementById('btn-pub').innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg> Publicar no Mercado Livre';
+                document.getElementById('srch').value = '';
+                setFT('all');
+                setStep(1);
+            }
+
+            /* ─── HELPERS ─── */
+            function upCC() {
+                const v = document.getElementById('ad-title').value.length;
+                const el = document.getElementById('cc');
+                el.textContent = v + '/60';
+                el.className = 'text-[11px] shrink-0 ' + (v >= 55 ? 'text-amber-500 font-semibold' : v >= 60 ? 'text-red-500 font-semibold' : 'text-slate-400');
+            }
+            function upMargin() {
+                const price = parseFloat(document.getElementById('ad-price').value);
+                if (!sel || !price) return;
+                const type = document.querySelector('input[name="adtype"]:checked').value;
+                const feeR = type === 'premium' ? 0.16 : 0.11;
+                const m = price - sel.cost - price * feeR;
+                const mPct = ((m / price) * 100).toFixed(1);
+                document.getElementById('margin-val').textContent = fmt(m) + ` (${mPct}%)`;
+                document.getElementById('margin-val').className = 'font-semibold ' + (m > 0 ? 'text-[#00A63E]' : 'text-red-500');
+            }
+            function showToast(msg, type) {
+                const wrap = document.getElementById('toast-wrap');
+                const colors = { success: 'bg-green-700', error: 'bg-red-500', loading: 'bg-blue-700' };
+                const icons = { success: '✅', error: '❌', loading: '🔄' };
+                const t = document.createElement('div');
+                t.className = `toast ${colors[type]} text-white rounded-xl px-5 py-3.5 text-[13px] font-medium flex items-center gap-2.5 shadow-[0_8px_32px_rgba(0,0,0,.2)] max-w-xs`;
+                t.innerHTML = `<span class="text-base shrink-0">${icons[type]}</span>${msg}`;
+                wrap.appendChild(t);
+                setTimeout(() => t.classList.add('show'), 10);
+                setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3500);
+            }
+
+            /* ─── INIT ─── */
+            doFilter();
+            setStep(1);
+        </script>
+
+</body>
+
+</html>

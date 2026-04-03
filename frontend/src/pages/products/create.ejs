@@ -51,16 +51,20 @@
     </style>
 </head>
 
-<body class="font-dm bg-[#F4F6F8] text-[#101828] flex min-h-screen">
+<body class="font-dm bg-slate-50 text-slate-900 flex min-h-screen">
 
     <!-- SIDEBAR -->
 
     <%- include('../../components/sidebar.ejs') -%>
 
-        <!-- MAIN -->
-        <div class="md:ml-64  flex-1 flex flex-col min-h-screen">
+    <!-- MAIN -->
+    <main class="md:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300 w-full overflow-hidden">
+
+        <!-- Top Bar -->
+        <%- include('../../components/navbar.ejs') -%>
+
             <!-- Content -->
-            <div class="p-8 flex-1">
+            <div class="px-4 py-6 md:p-8 pb-24 md:pb-8 flex-1 w-full mx-auto max-w-7xl">
                 <header class="mb-8">
                     <h1 class="text-3xl font-bold text-slate-900">Cadastro de Produtos por NF</h1>
                 </header>
@@ -471,7 +475,7 @@
                 </div><!-- /etapa4 -->
 
             </div><!-- /content -->
-        </div><!-- /main -->
+    </main>
 
         <!-- ── TOAST ── -->
         <div class="fixed bottom-7 right-7 flex flex-col gap-2.5 z-[200]" id="toast-wrap"></div>

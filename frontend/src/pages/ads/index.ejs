@@ -10,32 +10,6 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../../css/tailwind-compiled.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        dm: ['"DM Sans"', 'sans-serif'],
-                        playfair: ['"Playfair Display"', 'serif'],
-                    },
-                    colors: {
-                        modamym: {
-                            green: '#00A63E',
-                            'green-dark': '#009136',
-                            navy: '#0a0f1a',
-                            'navy-light': '#1e293b',
-                            slate: {
-                                50: '#F4F6F8',
-                                900: '#101828',
-                                500: '#6A7282',
-                                100: '#E5E7EB',
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         /* Custom scrollbar for the table */
         .custom-scrollbar::-webkit-scrollbar {
@@ -57,13 +31,17 @@
     </style>
 </head>
 
-<body class="font-dm bg-modamym-slate-50 text-modamym-slate-900 min-h-screen">
+<body class="font-dm bg-slate-50 text-slate-900 flex min-h-screen">
 
     <%- include('../../components/sidebar.ejs') -%>
 
-    <!-- Resolvendo o Sidebar Overlap: md:ml-64 empurra o container fixo para o Desktop e ml-0 nativo no mobile -->
-    <main class="md:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24 md:pb-8 w-full">
+    <main class="md:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300 w-full overflow-hidden">
+
+        <!-- Top Bar -->
+        <%- include('../../components/navbar.ejs') -%>
+
+            <!-- Content -->
+            <div class="px-4 py-6 md:p-8 pb-24 md:pb-8 flex-1 w-full mx-auto max-w-7xl">
 
             <!-- Header / Título -->
             <header class="mb-8">
